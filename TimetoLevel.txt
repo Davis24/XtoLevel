@@ -1,0 +1,7 @@
+## Title: TimetoLevel
+## Author: Devisaur
+## Description: The addon determines the average amount of time to next level.
+## APIVersion: 100019
+
+TimetoLevel.lua
+TimetoLevel.xml

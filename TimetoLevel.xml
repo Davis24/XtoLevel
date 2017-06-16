@@ -1,0 +1,58 @@
+<GuiXml>
+	<Controls>
+		<TopLevelControl name="TimetoLevel" movable="true" mouseEnabled="true" clampedToScreen="true" >           
+            <Anchor point="BOTTOMRIGHT" offsetX="-25" offsetY="25" />
+			<Dimensions x="200" y="150"/>
+			
+
+			<OnMouseDown>
+				TimetoLevel.Update()
+			</OnMouseDown>
+	
+			<Controls>
+                <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.8" />
+                <!-- Monsters -->
+				<Label name="$(parent)Monsters" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Monsters: ">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMLEFT" offsetY="-50" />
+                </Label>
+				<Label name="$(parent)MonstersNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Unknown">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-50"  />
+                </Label>
+				
+				<!-- Discovery -->
+				<Label name="$(parent)Discover" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Discovery: ">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMLEFT" offsetY="-75" />
+                </Label>
+				<Label name="$(parent)DiscoverNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Unknown">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-75"  />
+                </Label>
+				
+				
+				<!-- Quest -->
+				<Label name="$(parent)Quests" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Quests: ">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMLEFT" offsetY="-100" />
+                </Label>
+				<Label name="$(parent)QuestNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Unknown">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-100"  />
+                </Label>
+				
+				<!-- Time -->
+				<Label name="$(parent)Time" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Time: ">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMLEFT" offsetY="-25" />
+                </Label>
+				<Label name="$(parent)TimeNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Unknown">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-25"  />
+                </Label>
+				
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>
