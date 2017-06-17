@@ -1,6 +1,6 @@
 <GuiXml>
 	<Controls>
-		<TopLevelControl name="TimetoLevel" movable="true" mouseEnabled="true" clampedToScreen="true" >           
+		<TopLevelControl name="TimetoLevelUI" movable="true" mouseEnabled="true" clampedToScreen="true" >           
             <Anchor point="BOTTOMRIGHT" offsetX="-25" offsetY="25" />
 			<Dimensions x="200" y="150"/>
 			
