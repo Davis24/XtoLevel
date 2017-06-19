@@ -1,9 +1,9 @@
 ;
 
-## Title: TimetoLevel
+## Title: XtoLevel
 ## Author: Devisaur
 ## Description: An addon that provides details about your characters leveling process.
 ## APIVersion: 100019
 
-TimetoLevel.lua
-TimetoLevel.xml
+XtoLevel.lua
+XtoLevel.xml

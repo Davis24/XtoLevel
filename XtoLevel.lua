@@ -9,24 +9,27 @@ XtoLevel.levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player'))
 XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
 XtoLevel.initialXP = GetUnitXP('player')
 
-
-
-XtoLevel.avgMonsterXP = 0
-
---XtoLevel.avgDiscoverXP = 0 remove
-XtoLevel.avgQuestXP = 0
+XtoLevel.avgBattlegroundXP = 0
+XtoLevel.avgDelveXP = 0
 XtoLevel.avgDolmenXP = 0
-XtoLevel.avgXP = 1
+XtoLevel.avgDungeonXP = 0
+XtoLevel.avgMonsterXP = 0
+XtoLevel.avgQuestXP = 0
+
+
+XtoLevel.avgOverallXP = 1
 
 ------------------------------------------------------------------------------------------------
 --  Functions --
 ------------------------------------------------------------------------------------------------
 function XtoLevel.Initalize(eventCode, addOnName)
-	--XtoLevelCounter:SetText(string.format(XtoLevel.name)
 	if ( addOnName ~= XtoLevel.name) then
 		return
 	end
 
+	
+	--set initial variables from saved 
+	
 	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
 end
 function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
@@ -58,12 +61,12 @@ end
 
 function XtoLevel.AverageTime()
 	local XPAMin = GetUnitXP('player') - XtoLevel.initialXP
-	XtoLevel.avgXP = (.5 * XPAMin) + (.5 * XtoLevel.avgXP)
-	local avgXPAMin = zo_round(XtoLevel.remainingXP/XtoLevel.avgXP)
-	if(avgXPAMin > 120) then
+	XtoLevel.avgOverallXP = (.5 * XPAMin) + (.5 * XtoLevel.avgOverallXP)
+	local avgOverallXPAMin = zo_round(XtoLevel.remainingXP/XtoLevel.avgOverallXP)
+	if(avgOverallXPAMin > 120) then
 		XtoLevelUITimeNum:SetText("> 2 hrs")
 	else
-		XtoLevelUITimeNum:SetText(avgXPAMin)
+		XtoLevelUITimeNum:SetText(avgOverallXPAMin)
 	end
 	
 	XtoLevel.initialXP = GetUnitXP('player')
