@@ -1,114 +1,116 @@
-TimetoLevel = {}
+XtoLevel = {}
 ------------------------------------------------------------------------------------------------
 --  Initialize Variables --
 ------------------------------------------------------------------------------------------------
-TimetoLevel.name = "TimetoLevel"
-TimetoLevel.version = 1
-TimetoLevel.XP = GetUnitXP('player')
-TimetoLevel.levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) 
-TimetoLevel.remainingXP = TimetoLevel.levelXP - TimetoLevel.XP
-TimetoLevel.initialXP = GetUnitXP('player')
+XtoLevel.name = "XtoLevel"
+XtoLevel.version = 1
+XtoLevel.XP = GetUnitXP('player')
+XtoLevel.levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) 
+XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
+XtoLevel.initialXP = GetUnitXP('player')
 
 
 
-TimetoLevel.avgMonsterXP = 0
-TimetoLevel.avgDiscoverXP = 0
-TimetoLevel.avgQuestXP = 0
-TimetoLevel.avgDolmenXP = 0
-TimetoLevel.avgXP = 1
+XtoLevel.avgMonsterXP = 0
+
+--XtoLevel.avgDiscoverXP = 0 remove
+XtoLevel.avgQuestXP = 0
+XtoLevel.avgDolmenXP = 0
+XtoLevel.avgXP = 1
 
 ------------------------------------------------------------------------------------------------
 --  Functions --
 ------------------------------------------------------------------------------------------------
-
-
-function TimetoLevel.Initalize(eventCode, addOnName)
-	--TimetoLevelCounter:SetText(string.format(TimetoLevel.name)
-	if ( addOnName ~= TimetoLevel.name) then
+function XtoLevel.Initalize(eventCode, addOnName)
+	--XtoLevelCounter:SetText(string.format(XtoLevel.name)
+	if ( addOnName ~= XtoLevel.name) then
 		return
 	end
 
-	EVENT_MANAGER:UnregisterForEvent(TimetoLevel.name, EVENT_ADD_ON_LOADED)
+	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
 end
-function TimetoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
+function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
 	   if ( unitTag ~= 'player' ) then return end
-       local XPgain = currentExp - TimetoLevel.XP
+       local XPgain = currentExp - XtoLevel.XP
        d("You gained " .. XPgain .. " experience.")
-       TimetoLevel.XP = currentExp
-	   TimetoLevel.remainingXP = TimetoLevel.levelXP - TimetoLevel.XP
+       XtoLevel.XP = currentExp
+	   XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
 	   
 	   if(reason == 0) then
 			--d("Monster kill and counter".. monsterCounter)		
-			TimetoLevel.avgMonsterXP = (.1 * XPgain) + (.9 * TimetoLevel.avgMonsterXP)
+			XtoLevel.avgMonsterXP = (.1 * XPgain) + (.9 * XtoLevel.avgMonsterXP)
 			
 	   elseif(reason == 1) then
 			d("Quest complete")
-			TimetoLevel.avgQuestXP = (.5 * XPgain) + (.5 * TimetoLevel.avgQuestXP)		
+			XtoLevel.avgQuestXP = (.5 * XPgain) + (.5 * XtoLevel.avgQuestXP)		
 	   elseif(reason == 7) then
 			d("Dolmen Completed")
-			TimetoLevel.avgDolmenXP = (.5 * XPgain) + (.5 * TimetoLevel.avgDolmenXP)
+			XtoLevel.avgDolmenXP = (.5 * XPgain) + (.5 * XtoLevel.avgDolmenXP)
 	   elseif(reason == 3) then
 			d("Discovered complete")
 			-- Discover XP is identical, so it doesn't need a formula
-			TimetoLevel.avgDiscoverXP = XPgain
+			XtoLevel.avgDiscoverXP = XPgain
 	   else
 			d("Other XP event:" .. reason)
 	   end
-	   TimetoLevel.SetText()
+	   XtoLevel.SetText()
 end
 
-function TimetoLevel.AverageTime()
-	local XPAMin = GetUnitXP('player') - TimetoLevel.initialXP
-	TimetoLevel.avgXP = (.5 * XPAMin) + (.5 * TimetoLevel.avgXP)
-	local avgXPAMin = zo_round(TimetoLevel.remainingXP/TimetoLevel.avgXP)
+function XtoLevel.AverageTime()
+	local XPAMin = GetUnitXP('player') - XtoLevel.initialXP
+	XtoLevel.avgXP = (.5 * XPAMin) + (.5 * XtoLevel.avgXP)
+	local avgXPAMin = zo_round(XtoLevel.remainingXP/XtoLevel.avgXP)
 	if(avgXPAMin > 120) then
-		TimetoLevelUITimeNum:SetText("> 2 hrs")
+		XtoLevelUITimeNum:SetText("> 2 hrs")
 	else
-		TimetoLevelUITimeNum:SetText(avgXPAMin)
+		XtoLevelUITimeNum:SetText(avgXPAMin)
 	end
 	
-	TimetoLevel.initialXP = GetUnitXP('player')
+	XtoLevel.initialXP = GetUnitXP('player')
 	
 end
 
-function TimetoLevel.LeveledUp(eventCode, unitTag, level)
+function XtoLevel.LeveledUp(eventCode, unitTag, level)
 	d("Player leveled up.")
 	if ( unitTag ~= 'player' ) then return end
-	TimetoLevel.initialXP = GetUnitXP('player')
-	TimetoLevel.levelXP = GetNumExperiencePointsInLevel(level) 
-	TimetoLevel.remainingXP = TimetoLevel.levelXP - TimetoLevel.XP
-	TimetoLevel.SetText()
-	TimetoLevel.AverageTime()
+	XtoLevel.initialXP = GetUnitXP('player')
+	XtoLevel.levelXP = GetNumExperiencePointsInLevel(level) 
+	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
+	XtoLevel.SetText()
+	XtoLevel.AverageTime()
 end
 
-function TimetoLevel.SetText()
-	   local m = zo_round(TimetoLevel.remainingXP/TimetoLevel.avgMonsterXP)
-	   local q = zo_round(TimetoLevel.remainingXP/TimetoLevel.avgQuestXP)
-	   local d = zo_round(TimetoLevel.remainingXP/TimetoLevel.avgDiscoverXP)
-	   local dol = zo_round(TimetoLevel.remainingXP/TimetoLevel.avgDolmenXP)
+function XtoLevel.SetText()
+	   local m = zo_round(XtoLevel.remainingXP/XtoLevel.avgMonsterXP)
+	   local q = zo_round(XtoLevel.remainingXP/XtoLevel.avgQuestXP)
+	   local d = zo_round(XtoLevel.remainingXP/XtoLevel.avgDiscoverXP)
+	   local dol = zo_round(XtoLevel.remainingXP/XtoLevel.avgDolmenXP)
 	   if(m == math.huge) then
-			TimetoLevelUIMonstersNum:SetText("?")
+			XtoLevelUIMonstersNum:SetText("?")
 	   else
-			TimetoLevelUIMonstersNum:SetText(m)
+			XtoLevelUIMonstersNum:SetText(m)
 	   end
 	   if (q == math.huge) then
-			TimetoLevelUIQuestNum:SetText("?")
+			XtoLevelUIQuestNum:SetText("?")
 	   else
-			TimetoLevelUIQuestNum:SetText(q)
+			XtoLevelUIQuestNum:SetText(q)
 	   end
 	   if(d == math.huge) then
-			TimetoLevelUIDiscoverNum:SetText("?")
+			XtoLevelUIDiscoverNum:SetText("?")
 	   else
-			TimetoLevelUIDiscoverNum:SetText(d)
+			XtoLevelUIDiscoverNum:SetText(d)
 	   end
 	   if(dol == math.huge) then
-			TimetoLevelUIDolmenNum:SetText("?")
+			XtoLevelUIDolmenNum:SetText("?")
 	   else
-			TimetoLevelUIDolmenNum:SetText(dol)
+			XtoLevelUIDolmenNum:SetText(dol)
 	   end
 end
 
-EVENT_MANAGER:RegisterForEvent(TimetoLevel.name, EVENT_ADD_ON_LOADED, TimetoLevel.Initalize)
-EVENT_MANAGER:RegisterForEvent(TimetoLevel.name, EVENT_EXPERIENCE_UPDATE, TimetoLevel.Update)
-EVENT_MANAGER:RegisterForEvent(TimetoLevel.name, EVENT_LEVEL_UPDATE, TimetoLevel.LeveledUp)
-EVENT_MANAGER:RegisterForUpdate(TimetoLevel.name, 60000, TimetoLevel.AverageTime)
+------------------------------------------------------------------------------------------------
+--  Events --
+------------------------------------------------------------------------------------------------
+EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED, XtoLevel.Initalize)
+EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_EXPERIENCE_UPDATE, XtoLevel.Update)
+EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_LEVEL_UPDATE, XtoLevel.LeveledUp)
+EVENT_MANAGER:RegisterForUpdate(XtoLevel.name, 60000, XtoLevel.AverageTime)
