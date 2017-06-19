@@ -17,7 +17,11 @@ TimetoLevel.avgQuestXP = 0
 TimetoLevel.avgDolmenXP = 0
 TimetoLevel.avgXP = 1
 
---Initalize Function
+------------------------------------------------------------------------------------------------
+--  Functions --
+------------------------------------------------------------------------------------------------
+
+
 function TimetoLevel.Initalize(eventCode, addOnName)
 	--TimetoLevelCounter:SetText(string.format(TimetoLevel.name)
 	if ( addOnName ~= TimetoLevel.name) then

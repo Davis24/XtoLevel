@@ -1,6 +1,8 @@
+;
+
 ## Title: TimetoLevel
 ## Author: Devisaur
-## Description: The addon determines the average amount of time to next level.
+## Description: An addon that provides details about your characters leveling process.
 ## APIVersion: 100019
 
 TimetoLevel.lua

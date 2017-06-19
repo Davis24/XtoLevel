@@ -11,42 +11,62 @@
 	
 			<Controls>
                 <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.8" />
-				
-				<Label name="$(parent)Dolmen" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Dolmens: ">
+				<!-- Battlegrounds -->
+				<Label name="$(parent)Dolmens" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Dolmens: ">
                     <AnchorFill />
-					<Anchor  point="BOTTOMLEFT" offsetY="-125" />
+					<Anchor  point="BOTTOMLEFT" offsetY="-175" />
                 </Label>
-				<Label name="$(parent)DolmenNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Label name="$(parent)DolmensNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-125"  />
                 </Label>
-                <!-- Monsters -->
-				<Label name="$(parent)Monsters" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Monsters: ">
+				
+				<!-- Delves -->
+				<Label name="$(parent)Dolmens" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Dolmens: ">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMLEFT" offsetY="-150" />
+                </Label>
+				<Label name="$(parent)DolmensNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-125"  />
+                </Label>
+				
+				<!-- Dolmens -->
+				<Label name="$(parent)Dolmens" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Dolmens: ">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMLEFT" offsetY="-125" />
+                </Label>
+				<Label name="$(parent)DolmensNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+                    <AnchorFill />
+					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-125"  />
+                </Label>
+                <!-- Dungeons -->
+				<Label name="$(parent)Dungeons" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Monsters: ">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-50" />
                 </Label>
-				<Label name="$(parent)MonstersNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Label name="$(parent)DungeonsNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-50"  />
                 </Label>
 				
-				<!-- Discovery -->
-				<Label name="$(parent)Discover" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Discovery: ">
+				<!-- Monsters -->
+				<Label name="$(parent)Monsters" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Discovery: ">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-75" />
                 </Label>
-				<Label name="$(parent)DiscoverNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Label name="$(parent)MonstersNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-75"  />
                 </Label>
 				
 				
-				<!-- Quest -->
+				<!-- Quests -->
 				<Label name="$(parent)Quests" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Quests: ">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-100" />
                 </Label>
-				<Label name="$(parent)QuestNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Label name="$(parent)QuestsNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-100"  />
                 </Label>
