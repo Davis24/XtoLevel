@@ -7,11 +7,10 @@ Elder Scrolls Online Addon: The addon provides details about your characters lev
 * Add saving of averages -- used to make them more accurate over time
 * Check if the saved averages need to be per characters
 * Save location of the addon screen between sessions
-* Add Battlegrounds, Delves, Dolmens, Dungeons, Monsters, and Quests
 * Include icons for each of these instead of the full name
 * Recaculate timer at level
 * Include /help menu
-* Change name to XtoLevel
+* Change project name
 * Refactor the code: better variables names and documentation
 
 ## Deployment
@@ -22,7 +21,6 @@ Elder Scrolls Online Addon: The addon provides details about your characters lev
 
 * [Notepad++](https://notepad-plus-plus.org/) - Free source code editor
 * [Elder Scrolls Online](http://www.elderscrollsonline.com/en-us/agegate) - Video Game
-
 
 ## Versioning
 
@@ -35,11 +33,11 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
 * Hat tip to anyone who's code was used
-* Inspiration
+* World of Warcraft Addon XtoLevel -- upon which this addon is based
 * etc
 

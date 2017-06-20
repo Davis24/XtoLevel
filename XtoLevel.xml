@@ -12,11 +12,11 @@
 			<Controls>
                 <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.8" />
 				<!-- Battlegrounds -->
-				<Label name="$(parent)Dolmens" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Dolmens: ">
+				<Label name="$(parent)Battlegrounds" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Dolmens: ">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-175" />
                 </Label>
-				<Label name="$(parent)DolmensNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Label name="$(parent)BattlegroundsNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-125"  />
                 </Label>

@@ -26,37 +26,36 @@ function XtoLevel.Initalize(eventCode, addOnName)
 	if ( addOnName ~= XtoLevel.name) then
 		return
 	end
-
 	
 	--set initial variables from saved 
 	
 	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
 end
+
 function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
-	   if ( unitTag ~= 'player' ) then return end
-       local XPgain = currentExp - XtoLevel.XP
-       d("You gained " .. XPgain .. " experience.")
-       XtoLevel.XP = currentExp
-	   XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
+	if ( unitTag ~= 'player' ) then return end
+    local XPgain = currentExp - XtoLevel.XP
+    d("You gained " .. XPgain .. " experience.")
+    XtoLevel.XP = currentExp
+	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
 	   
-	   if(reason == 0) then
-			--d("Monster kill and counter".. monsterCounter)		
-			XtoLevel.avgMonsterXP = (.1 * XPgain) + (.9 * XtoLevel.avgMonsterXP)
-			
-	   elseif(reason == 1) then
-			d("Quest complete")
-			XtoLevel.avgQuestXP = (.5 * XPgain) + (.5 * XtoLevel.avgQuestXP)		
-	   elseif(reason == 7) then
-			d("Dolmen Completed")
-			XtoLevel.avgDolmenXP = (.5 * XPgain) + (.5 * XtoLevel.avgDolmenXP)
-	   elseif(reason == 3) then
-			d("Discovered complete")
-			-- Discover XP is identical, so it doesn't need a formula
-			XtoLevel.avgDiscoverXP = XPgain
-	   else
-			d("Other XP event:" .. reason)
-	   end
-	   XtoLevel.SetText()
+	if(reason == 0) then -- Kill (i.e monster)		
+		XtoLevel.avgMonsterXP = (.1 * XPgain) + (.9 * XtoLevel.avgMonsterXP)
+	elseif(reason == 1) then -- Quest Completed
+		XtoLevel.avgQuestXP = (.5 * XPgain) + (.5 * XtoLevel.avgQuestXP)
+	elseif(reason == 2) then -- Complete POI (which should be delves but I believe it also triggers on other things)
+		XtoLevel.avgDelveXP = (.5 * XPgain) + (.5 XtoLevel.avgDelveXP)
+	elseif(reason == 3) then -- Dungeon XP  !!!!!!!! What is the ID for this
+		XtoLevel.avgDungeonXP = (.5 * XPgain) + (.5 * XtoLevel.avgDungeonXP)
+	elseif(reason == 4) then -- Battleground
+		XtoLevel.avgBattlegroundXP = (.5 XPgain) + (.5 * XtoLevel.avgBattlegroundXP)
+	elseif(reason == 7) then -- Dolmens (big and little ones)
+		d("Dolmen Completed")
+		XtoLevel.avgDolmenXP = (.5 * XPgain) + (.5 * XtoLevel.avgDolmenXP)
+	else
+		d("Other XP event:" .. reason) -- Comment out before deployment
+	end
+	XtoLevel.SetText()
 end
 
 function XtoLevel.AverageTime()
@@ -84,30 +83,55 @@ function XtoLevel.LeveledUp(eventCode, unitTag, level)
 end
 
 function XtoLevel.SetText()
-	   local m = zo_round(XtoLevel.remainingXP/XtoLevel.avgMonsterXP)
-	   local q = zo_round(XtoLevel.remainingXP/XtoLevel.avgQuestXP)
-	   local d = zo_round(XtoLevel.remainingXP/XtoLevel.avgDiscoverXP)
-	   local dol = zo_round(XtoLevel.remainingXP/XtoLevel.avgDolmenXP)
-	   if(m == math.huge) then
-			XtoLevelUIMonstersNum:SetText("?")
-	   else
-			XtoLevelUIMonstersNum:SetText(m)
-	   end
-	   if (q == math.huge) then
-			XtoLevelUIQuestNum:SetText("?")
-	   else
-			XtoLevelUIQuestNum:SetText(q)
-	   end
-	   if(d == math.huge) then
-			XtoLevelUIDiscoverNum:SetText("?")
-	   else
-			XtoLevelUIDiscoverNum:SetText(d)
-	   end
-	   if(dol == math.huge) then
-			XtoLevelUIDolmenNum:SetText("?")
-	   else
-			XtoLevelUIDolmenNum:SetText(dol)
-	   end
+	local battle = zo_round(XtoLevel.remainingXP/XtoLevel.avgBattlegroundXP)
+	local delv = zo_round(XtoLevel.remainingXP/XtoLevel.avgDelveXP)
+	local dol = zo_round(XtoLevel.remainingXP/XtoLevel.avgDolmenXP)
+	local dung = zo_round(XtoLevel.remainingXP/XtoLevel.avgDungeonXP)
+	local mon = zo_round(XtoLevel.remainingXP/XtoLevel.avgMonsterXP)
+	local ques = zo_round(XtoLevel.remainingXP/XtoLevel.avgQuestXP)
+	
+	if(battle == math.huge) then
+		XtoLevelUIBattlegroundsNum:SetText("?")
+	else
+		XtoLevelUIBattlegroundsNum:SetText(battle)
+	end
+	
+	if(delv == math.huge) then
+		XtoLevelUIDelvesNum:SetText("?")
+	else
+		XtoLevelUIDelvesNum:SetText(delv)
+	end
+	
+	if(dol == math.huge) then
+		XtoLevelUIDolmensNum:SetText("?")
+	else
+		XtoLevelUIDolmensNum:SetText(dol)
+	end
+	
+	if(dung == math.huge) then
+		XtoLevelUIDungeonsNum:SetText("?")
+	else
+		XtoLevelUIDungeonsNum:SetText(dung)
+	end
+	
+	if(mon == math.huge) then
+		XtoLevelUIMonstersNum:SetText("?")
+	else
+		XtoLevelUIMonstersNum:SetText(mon)
+	end
+	
+	if (ques == math.huge) then
+		XtoLevelUIQuestsNum:SetText("?")
+	else
+		XtoLevelUIQuestsNum:SetText(ques)
+	end
+	
+end
+
+function XtoLevel.Help()
+	--reset the XP
+	--Hide
+	--Show
 end
 
 ------------------------------------------------------------------------------------------------
@@ -117,3 +141,8 @@ EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED, XtoLevel.Init
 EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_EXPERIENCE_UPDATE, XtoLevel.Update)
 EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_LEVEL_UPDATE, XtoLevel.LeveledUp)
 EVENT_MANAGER:RegisterForUpdate(XtoLevel.name, 60000, XtoLevel.AverageTime)
+
+------------------------------------------------------------------------------------------------
+--  Slash --
+------------------------------------------------------------------------------------------------
+SLASH_COMMANDS["/XtoLevel"] = XtoLevel.Help()
