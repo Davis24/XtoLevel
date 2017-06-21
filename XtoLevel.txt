@@ -4,6 +4,7 @@
 ## Author: Devisaur
 ## Description: An addon that provides details about your characters leveling process.
 ## APIVersion: 100019
+## SavedVariables: XtoLevelVars
 
 XtoLevel.lua
 XtoLevel.xml

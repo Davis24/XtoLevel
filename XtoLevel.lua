@@ -2,6 +2,11 @@ XtoLevel = {}
 ------------------------------------------------------------------------------------------------
 --  Initialize Variables --
 ------------------------------------------------------------------------------------------------
+XtoLevel.Default = {
+	OffSetX = -25,
+	OffSetY = 25
+}
+
 XtoLevel.name = "XtoLevel"
 XtoLevel.version = 1
 XtoLevel.XP = GetUnitXP('player')
@@ -27,6 +32,9 @@ function XtoLevel.Initalize(eventCode, addOnName)
 		return
 	end
 	
+	XtoLevel.savedVariables = ZO_SavedVars:New("XtoLevelVars", XtoLevel.version, nil, XtoLevel.Default)
+	XtoLevelUI:ClearAnchors()
+	XtoLevelUI:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, XtoLevel.savedVariables.OffSetX, XtoLevel.savedVariables.OffSetY)
 	--set initial variables from saved 
 	
 	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
@@ -44,11 +52,12 @@ function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
 	elseif(reason == 1) then -- Quest Completed
 		XtoLevel.avgQuestXP = (.5 * XPgain) + (.5 * XtoLevel.avgQuestXP)
 	elseif(reason == 2) then -- Complete POI (which should be delves but I believe it also triggers on other things)
-		XtoLevel.avgDelveXP = (.5 * XPgain) + (.5 XtoLevel.avgDelveXP)
+		d("Delve 2 Active")
+		XtoLevel.avgDelveXP = (.5 * XPgain) + (.5 * XtoLevel.avgDelveXP)
 	elseif(reason == 3) then -- Dungeon XP  !!!!!!!! What is the ID for this
 		XtoLevel.avgDungeonXP = (.5 * XPgain) + (.5 * XtoLevel.avgDungeonXP)
 	elseif(reason == 4) then -- Battleground
-		XtoLevel.avgBattlegroundXP = (.5 XPgain) + (.5 * XtoLevel.avgBattlegroundXP)
+		XtoLevel.avgBattlegroundXP = (.5 * XPgain) + (.5 * XtoLevel.avgBattlegroundXP)
 	elseif(reason == 7) then -- Dolmens (big and little ones)
 		d("Dolmen Completed")
 		XtoLevel.avgDolmenXP = (.5 * XPgain) + (.5 * XtoLevel.avgDolmenXP)
@@ -126,6 +135,11 @@ function XtoLevel.SetText()
 		XtoLevelUIQuestsNum:SetText(ques)
 	end
 	
+end
+
+function XtoLevel.SaveLoc()
+	XtoLevel.savedVariables.OffSetX = XtoLevelUI:GetLeft()
+	XtoLevel.savedVariables.OffSetY = XtoLevelUI:GetTop()
 end
 
 function XtoLevel.Help()
