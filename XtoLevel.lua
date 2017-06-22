@@ -4,7 +4,14 @@ XtoLevel = {}
 ------------------------------------------------------------------------------------------------
 XtoLevel.Default = {
 	OffSetX = -25,
-	OffSetY = 25
+	OffSetY = 25,
+	avgBattlegroundXP = 0,
+	avgDelveXP = 0,
+	avgDolmenXP = 0,
+	avgDungeonXP = 0,
+	avgMonsterXP = 0,
+	avgQuestXP = 0,
+	avgOverallXP = 1
 }
 
 XtoLevel.name = "XtoLevel"
@@ -35,6 +42,7 @@ function XtoLevel.Initalize(eventCode, addOnName)
 	XtoLevel.savedVariables = ZO_SavedVars:New("XtoLevelVars", XtoLevel.version, nil, XtoLevel.Default)
 	XtoLevelUI:ClearAnchors()
 	XtoLevelUI:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, XtoLevel.savedVariables.OffSetX, XtoLevel.savedVariables.OffSetY)
+	XtoLevel.avgMonsterXP = XtoLevel.savedVariables.avgMonsterXP
 	--set initial variables from saved 
 	
 	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
@@ -142,6 +150,10 @@ function XtoLevel.SaveLoc()
 	XtoLevel.savedVariables.OffSetY = XtoLevelUI:GetTop()
 end
 
+function XtoLevel.Save()
+	XtoLevel.savedVariables.avgMonsterXP = XtoLevel.avgMonsterXP
+end
+
 function XtoLevel.Help()
 	--reset the XP
 	--Hide
@@ -154,6 +166,7 @@ end
 EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED, XtoLevel.Initalize)
 EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_EXPERIENCE_UPDATE, XtoLevel.Update)
 EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_LEVEL_UPDATE, XtoLevel.LeveledUp)
+EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_PLAYER_DEACTIVATED, XtoLevel.Save)
 EVENT_MANAGER:RegisterForUpdate(XtoLevel.name, 60000, XtoLevel.AverageTime)
 
 ------------------------------------------------------------------------------------------------
