@@ -4,10 +4,8 @@ Elder Scrolls Online Addon: The addon provides details about your characters lev
 
 ## To Do
 
-* Add saving of averages -- used to make them more accurate over time
 * Check if the saved averages need to be per characters
 * Include icons for each of these instead of the full name
-* Recaculate timer at level
 * Include /help menu
 * Refactor the code: better variables names and documentation
 

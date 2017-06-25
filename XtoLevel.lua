@@ -1,7 +1,15 @@
-XtoLevel = {}
+-- Name: XtoLevel
+-- Verson: 1.0.0
+-- Author: Devisaur
+-- Description: Displays information on character leveling.
+-- ToDo:
+--  See Github README (https://github.com/Davis24/XtoLevel)
+
+
 ------------------------------------------------------------------------------------------------
 --  Initialize Variables --
 ------------------------------------------------------------------------------------------------
+XtoLevel = {}
 XtoLevel.Default = {
 	OffSetX = -25,
 	OffSetY = 25,
@@ -42,7 +50,14 @@ function XtoLevel.Initalize(eventCode, addOnName)
 	XtoLevel.savedVariables = ZO_SavedVars:New("XtoLevelVars", XtoLevel.version, nil, XtoLevel.Default)
 	XtoLevelUI:ClearAnchors()
 	XtoLevelUI:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, XtoLevel.savedVariables.OffSetX, XtoLevel.savedVariables.OffSetY)
+	XtoLevel.avgBattlegroundXP = XtoLevel.savedVariables.avgBattlegroundXP
+	XtoLevel.avgDelveXP = XtoLevel.savedVariables.avgDelveXP 
+	XtoLevel.avgDolmenXP = XtoLevel.savedVariables.avgDolmenXP
+	XtoLevel.avgDungeonXP = XtoLevel.savedVariables.avgDungeonXP
 	XtoLevel.avgMonsterXP = XtoLevel.savedVariables.avgMonsterXP
+	XtoLevel.avgQuestXP = XtoLevel.savedVariables.avgQuestXP
+	XtoLevel.avgOverallXP = XtoLevel.savedVariables.avgOverallXP
+	XtoLevel.SetText()
 	--set initial variables from saved 
 	
 	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
@@ -51,7 +66,7 @@ end
 function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
 	if ( unitTag ~= 'player' ) then return end
     local XPgain = currentExp - XtoLevel.XP
-    d("You gained " .. XPgain .. " experience.")
+    --d("You gained " .. XPgain .. " experience.")
     XtoLevel.XP = currentExp
 	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
 	   
@@ -60,17 +75,17 @@ function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
 	elseif(reason == 1) then -- Quest Completed
 		XtoLevel.avgQuestXP = (.5 * XPgain) + (.5 * XtoLevel.avgQuestXP)
 	elseif(reason == 2) then -- Complete POI (which should be delves but I believe it also triggers on other things)
-		d("Delve 2 Active")
+		--d("Delve 2 Active")
 		XtoLevel.avgDelveXP = (.5 * XPgain) + (.5 * XtoLevel.avgDelveXP)
-	elseif(reason == 3) then -- Dungeon XP  !!!!!!!! What is the ID for this
+	elseif(reason == 37) then -- Dungeon XP  !!!!!!!! What is the ID for this
 		XtoLevel.avgDungeonXP = (.5 * XPgain) + (.5 * XtoLevel.avgDungeonXP)
 	elseif(reason == 4) then -- Battleground
 		XtoLevel.avgBattlegroundXP = (.5 * XPgain) + (.5 * XtoLevel.avgBattlegroundXP)
 	elseif(reason == 7) then -- Dolmens (big and little ones)
-		d("Dolmen Completed")
+	--d("Dolmen Completed")
 		XtoLevel.avgDolmenXP = (.5 * XPgain) + (.5 * XtoLevel.avgDolmenXP)
-	else
-		d("Other XP event:" .. reason) -- Comment out before deployment
+	--else
+		--d("Other XP event:" .. reason) -- Comment out before deployment
 	end
 	XtoLevel.SetText()
 end
@@ -90,7 +105,7 @@ function XtoLevel.AverageTime()
 end
 
 function XtoLevel.LeveledUp(eventCode, unitTag, level)
-	d("Player leveled up.")
+	--d("Player leveled up.")
 	if ( unitTag ~= 'player' ) then return end
 	XtoLevel.initialXP = GetUnitXP('player')
 	XtoLevel.levelXP = GetNumExperiencePointsInLevel(level) 
@@ -151,14 +166,21 @@ function XtoLevel.SaveLoc()
 end
 
 function XtoLevel.Save()
+	XtoLevel.savedVariables.avgBattlegroundXP = XtoLevel.avgBattlegroundXP
+	XtoLevel.savedVariables.avgDelveXP = XtoLevel.avgDelveXP
+	XtoLevel.savedVariables.avgDolmenXP = XtoLevel.avgDolmenXP
+	XtoLevel.savedVariables.avgDungeonXP = XtoLevel.avgDungeonXP
 	XtoLevel.savedVariables.avgMonsterXP = XtoLevel.avgMonsterXP
+	XtoLevel.savedVariables.avgQuestXP = XtoLevel.avgQuestXP
+	XtoLevel.savedVariables.avgOverallXP = XtoLevel.avgOverallXP
 end
 
-function XtoLevel.Help()
-	--reset the XP
-	--Hide
-	--Show
-end
+
+------------------------------------------------------------------------------------------------
+--  Slash --
+------------------------------------------------------------------------------------------------
+--SLASH_COMMANDS["/xtolevel"] = XtoLevel.Help()
+
 
 ------------------------------------------------------------------------------------------------
 --  Events --
@@ -169,7 +191,5 @@ EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_LEVEL_UPDATE, XtoLevel.Level
 EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_PLAYER_DEACTIVATED, XtoLevel.Save)
 EVENT_MANAGER:RegisterForUpdate(XtoLevel.name, 60000, XtoLevel.AverageTime)
 
-------------------------------------------------------------------------------------------------
---  Slash --
-------------------------------------------------------------------------------------------------
-SLASH_COMMANDS["/XtoLevel"] = XtoLevel.Help()
+
+	

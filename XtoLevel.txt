@@ -1,8 +1,6 @@
-;
-
 ## Title: XtoLevel
 ## Author: Devisaur
-## Description: An addon that provides details about your characters leveling process.
+## Description: Provides details about your characters leveling process.
 ## APIVersion: 100019
 ## SavedVariables: XtoLevelVars
 
