@@ -39,6 +39,7 @@ XtoLevel.avgQuestXP = 0
 
 XtoLevel.avgOverallXP = 1
 
+
 ------------------------------------------------------------------------------------------------
 --  Functions --
 ------------------------------------------------------------------------------------------------
@@ -50,6 +51,7 @@ function XtoLevel.Initalize(eventCode, addOnName)
 	XtoLevel.savedVariables = ZO_SavedVars:New("XtoLevelVars", XtoLevel.version, nil, XtoLevel.Default)
 	XtoLevelUI:ClearAnchors()
 	XtoLevelUI:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, XtoLevel.savedVariables.OffSetX, XtoLevel.savedVariables.OffSetY)
+	
 	XtoLevel.avgBattlegroundXP = XtoLevel.savedVariables.avgBattlegroundXP
 	XtoLevel.avgDelveXP = XtoLevel.savedVariables.avgDelveXP 
 	XtoLevel.avgDolmenXP = XtoLevel.savedVariables.avgDolmenXP
@@ -58,8 +60,7 @@ function XtoLevel.Initalize(eventCode, addOnName)
 	XtoLevel.avgQuestXP = XtoLevel.savedVariables.avgQuestXP
 	XtoLevel.avgOverallXP = XtoLevel.savedVariables.avgOverallXP
 	XtoLevel.SetText()
-	--set initial variables from saved 
-	
+
 	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
 end
 

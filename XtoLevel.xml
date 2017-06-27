@@ -7,11 +7,19 @@
 			<OnMoveStop>
 				XtoLevel.SaveLoc()
 			</OnMoveStop>
-			
+
 			<Controls>
                 <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.8" />
+				
+				<!--
+					Test code for textures
+				<Texture name="$(parent)_Texture1" textureFile="/esoui/art/charactercreate/charactercreate_altmericon_up.dds">
+					<Anchor point="TOPLEFT" />
+					<Dimensions x="20" y="20" />
+				</Texture>-->
+				
 				<!-- Battlegrounds -->
-				<Label name="$(parent)Battlegrounds" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Battlegrounds: ">
+				<Label name="$(parent)Battlegrounds" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" texture="/esoui/art/help/help_tabicon_feedback_up.dds" text="Battlegrounds: ">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-150" />
                 </Label>

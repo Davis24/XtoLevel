@@ -4,14 +4,17 @@ Elder Scrolls Online Addon: The addon provides details about your characters lev
 
 ## To Do
 
-* Check if the saved averages need to be per characters
-* Include icons for each of these instead of the full name
+* Include icons for each of these instead of the full name -- consider having the ability to switch between both
 * Include /help menu
 * Refactor the code: better variables names and documentation
 
 ## Deployment
 
--- Insert Installment Steps --
+1) Download XtoLevel.txt, XtoLevel.lua, and XtoLevel.XML
+2) Navigate to C:\Users\<username>\Documents\Elder Scrolls Online\live\AddOns\
+3) Create XtoLevel folder (make sure the name of the folde exactly matches the addon)
+4) Paste the files from step 1 into the XtoLevel folder
+5) Start up ESO
 
 ## Built With
 
@@ -26,14 +29,15 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 * **Megan Davis** - *Initial work* - [Davis24](https://github.com/Davis24)
 
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
+* [ESOUI Forums/Wiki](http://www.esoui.com/community.php)
 * World of Warcraft Addon XtoLevel -- upon which this addon is based
-* etc
+* **Gerrit Bond** - Fellow programmer/Rubber Ducky - [gerritbond](https://github.com/gerritbond)
+* **Connor Waters** - Fellow programmer/Rubber Ducky - [connorwaters](https://github.com/connorwaters)
+* **Grev** - Quality Assurance/Design Tester 
 
