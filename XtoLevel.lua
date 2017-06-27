@@ -23,7 +23,7 @@ XtoLevel.Default = {
 }
 
 XtoLevel.name = "XtoLevel"
-XtoLevel.version = 1
+XtoLevel.version = 1.0.0
 XtoLevel.XP = GetUnitXP('player')
 XtoLevel.levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) 
 XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
@@ -106,8 +106,8 @@ function XtoLevel.AverageTime()
 end
 
 function XtoLevel.LeveledUp(eventCode, unitTag, level)
-	--d("Player leveled up.")
 	if ( unitTag ~= 'player' ) then return end
+	
 	XtoLevel.initialXP = GetUnitXP('player')
 	XtoLevel.levelXP = GetNumExperiencePointsInLevel(level) 
 	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
