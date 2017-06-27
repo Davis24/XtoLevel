@@ -10,9 +10,9 @@ Elder Scrolls Online Addon: The addon provides details about your characters lev
 
 ## Deployment
 
-1) Download XtoLevel.txt, XtoLevel.lua, and XtoLevel.XML
-2) Navigate to C:\Users\<username>\Documents\Elder Scrolls Online\live\AddOns\
-3) Create XtoLevel folder (make sure the name of the folde exactly matches the addon)
+1) Download **XtoLevel.txt**, **XtoLevel.lua**, and **XtoLevel.XML**
+2) Navigate to C:/Users/<username>/Documents/Elder Scrolls Online/live/AddOns/
+3) Create an XtoLevel folder (make sure the name of the folder matches the addon name)
 4) Paste the files from step 1 into the XtoLevel folder
 5) Start up ESO
 
@@ -23,7 +23,7 @@ Elder Scrolls Online Addon: The addon provides details about your characters lev
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. 
 
 ## Authors
 
