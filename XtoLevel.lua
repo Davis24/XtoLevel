@@ -9,47 +9,25 @@
 ------------------------------------------------------------------------------------------------
 --  Initialize Variables --
 ------------------------------------------------------------------------------------------------
-XtoLevel = {}
-XtoLevel.Default = {
-	Position = {
-		OffSetX = -25,
-		OffSetY = 25
-	},
-	XP = {
-		avgBattlegroundXP = 0,
-		avgDelveXP = 0,
-		avgDolmenXP = 0,
-		avgDungeonXP = 0,
-		avgMonsterXP = 0,
-		avgQuestXP = 0,
-		avgOverallXP = 1
-	}
-}
-
-XtoLevel.Player = {
+XtoLevel = {
 	name = "XtoLevel",
     version = 1.00,
-	XP = {
-		avgBattlegroundXP = 0,
-		avgDelveXP = 0,
-		avgDolmenXP = 0,
-		avgDungeonXP = 0,
-		avgMonsterXP = 0,
-		avgQuestXP = 0,
-		avgOverallXP = 1
-		playerXP = GetUnitXP('player')
-		initialXP = GetUnitXP('player')
-		levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) 
-		remainingXP = levelXP - playerXP
-	}
+	avgBattlegroundXP = 0,
+	avgDelveXP = 0,
+	avgDolmenXP = 0,
+	avgDungeonXP = 0,
+	avgMonsterXP = 0,
+	avgQuestXP = 0,
+	avgOverallXP = 1,
+	playerXP = GetUnitXP('player'), -- the players XP, updates as XP is gained
+	initialXP = GetUnitXP('player'), -- the players XP at the start of the minute, used to calculate AverageTime
+	levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')), -- total level XP
+	remainingXP = levelXP - playerXP  --How much XP remaining in the level
 }
-
-
-
-
-
-
-
+XtoLevel.Default = {
+	OffSetX = 0,
+	OffSetY = 0
+}
 
 ------------------------------------------------------------------------------------------------
 --  Functions --
@@ -77,10 +55,10 @@ end
 
 function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
 	if ( unitTag ~= 'player' ) then return end
-    local XPgain = currentExp - XtoLevel.playerXP
-
-    XtoLevel.playerXP = currentExp
-	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP
+    
+	local XPgain = currentExp - XtoLevel.Player.playerXP
+    XtoLevel.Player.playerXP = currentExp
+	XtoLevel.Player.remainingXP = XtoLevel.Player.levelXP - XtoLevel.Player.playerXP
 	   
 	if(reason == 0) then -- Kill (i.e monster)		
 		XtoLevel.avgMonsterXP = (.1 * XPgain) + (.9 * XtoLevel.avgMonsterXP)
