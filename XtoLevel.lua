@@ -26,21 +26,29 @@ XtoLevel.Default = {
 	}
 }
 
-XtoLevel.name = "XtoLevel"
-XtoLevel.version = 1.00
-XtoLevel.XP = GetUnitXP('player')
-XtoLevel.levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) 
-XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
-XtoLevel.initialXP = GetUnitXP('player')
+XtoLevel.Player = {
+	name = "XtoLevel",
+    version = 1.00,
+	XP = {
+		avgBattlegroundXP = 0,
+		avgDelveXP = 0,
+		avgDolmenXP = 0,
+		avgDungeonXP = 0,
+		avgMonsterXP = 0,
+		avgQuestXP = 0,
+		avgOverallXP = 1
+		playerXP = GetUnitXP('player')
+		initialXP = GetUnitXP('player')
+		levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) 
+		remainingXP = levelXP - playerXP
+	}
+}
 
-XtoLevel.avgBattlegroundXP = 0
-XtoLevel.avgDelveXP = 0
-XtoLevel.avgDolmenXP = 0
-XtoLevel.avgDungeonXP = 0
-XtoLevel.avgMonsterXP = 0
-XtoLevel.avgQuestXP = 0
 
-XtoLevel.avgOverallXP = 1
+
+
+
+
 
 
 ------------------------------------------------------------------------------------------------
@@ -69,10 +77,10 @@ end
 
 function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
 	if ( unitTag ~= 'player' ) then return end
-    local XPgain = currentExp - XtoLevel.XP
+    local XPgain = currentExp - XtoLevel.playerXP
 
-    XtoLevel.XP = currentExp
-	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
+    XtoLevel.playerXP = currentExp
+	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP
 	   
 	if(reason == 0) then -- Kill (i.e monster)		
 		XtoLevel.avgMonsterXP = (.1 * XPgain) + (.9 * XtoLevel.avgMonsterXP)
@@ -110,7 +118,7 @@ function XtoLevel.LeveledUp(eventCode, unitTag, level)
 	
 	XtoLevel.initialXP = GetUnitXP('player')
 	XtoLevel.levelXP = GetNumExperiencePointsInLevel(level) 
-	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
+	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP
 	XtoLevel.SetText()
 	XtoLevel.AverageTime()
 end
