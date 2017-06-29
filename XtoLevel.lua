@@ -23,7 +23,7 @@ XtoLevel.Default = {
 }
 
 XtoLevel.name = "XtoLevel"
-XtoLevel.version = 1.0.0
+XtoLevel.version = 1.00
 XtoLevel.XP = GetUnitXP('player')
 XtoLevel.levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) 
 XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
@@ -60,7 +60,7 @@ function XtoLevel.Initalize(eventCode, addOnName)
 	XtoLevel.avgQuestXP = XtoLevel.savedVariables.avgQuestXP
 	XtoLevel.avgOverallXP = XtoLevel.savedVariables.avgOverallXP
 	XtoLevel.SetText()
-
+	
 	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
 end
 
@@ -176,11 +176,27 @@ function XtoLevel.Save()
 	XtoLevel.savedVariables.avgOverallXP = XtoLevel.avgOverallXP
 end
 
+function XtoLevel.Help()
+	d("called")
+	-- Icons
+	
+	
+	-- Text
+	
+	
+	
+	
+end
+--XtoLevelUIBattlegrounds:SetHidden(true)
+
 
 ------------------------------------------------------------------------------------------------
 --  Slash --
 ------------------------------------------------------------------------------------------------
---SLASH_COMMANDS["/xtolevel"] = XtoLevel.Help()
+ 
+SLASH_COMMANDS["/xtolevel"] = function (extra)
+	d("called")
+end
 
 
 ------------------------------------------------------------------------------------------------

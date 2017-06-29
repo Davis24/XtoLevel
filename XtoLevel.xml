@@ -12,102 +12,102 @@
                 <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.8" />
 				
 				<!-- Battlegrounds -->
-				<!--
-				<Label name="$(parent)Battlegrounds" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" texture="/esoui/art/help/help_tabicon_feedback_up.dds" text="Battlegrounds: ">
+				
+				<Label name="$(parent)BattlegroundsLabel" font="ZoFontGame" resizeToFitDescendents="true"  color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" texture="/esoui/art/help/help_tabicon_feedback_up.dds" text="Battlegrounds: " hidden="false">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-150" />
                 </Label>
-				-->
-				<Texture name="$(parent)_BattlegroundTexture" textureFile="esoui/art/icons/mapkey/mapkey_battle.dds">
-					<Anchor point="BOTTOMLEFT" offsetY="-150" />
-					<Dimensions x="20" y="20" />
+				<Texture name="$(parent)BattlegroundTexture" textureFile="esoui/art/compass/quest_icon.dds" hidden="true">
+					<Anchor point="BOTTOMLEFT" offsetX="-5" offsetY="-150" />
+					<Dimensions x="30" y="30" />
 				</Texture>
-				<Label name="$(parent)BattlegroundsNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Label name="$(parent)BattlegroundsNum" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-150"  />
                 </Label>
 				
 				<!-- Delves -->
-				<!-- 
-				<Label name="$(parent)Delves" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Delves: ">
+				<Label name="$(parent)DelvesLabel" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Delves: " hidden="false">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-125" />
-                </Label>
-				
-				-->
-				<Texture name="$(parent)_DelveTexture" textureFile="esoui/art/icons/mapkey/mapkey_delve.dds">
+                </Label>			
+				<Texture name="$(parent)DelveTexture" textureFile="esoui/art/icons/mapkey/mapkey_delve.dds" hidden="true">
 					<Anchor point="BOTTOMLEFT" offsetY="-125" />
-					<Dimensions x="20" y="20" />
+					<Dimensions x="30" y="30" />
 				</Texture>
-				<Label name="$(parent)DelvesNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Label name="$(parent)DelvesNum" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-125"  />
                 </Label>
 				
 				<!-- Dolmens -->
-				<Label name="$(parent)Dolmens" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Dolmens: ">
+				<Label name="$(parent)DolmensLabel" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Dolmens: " hidden="false">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-100" />
-                </Label>				
-				<Label name="$(parent)DolmensNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+                </Label>	-->
+				<Texture name="$(parent)DolmenTexture" textureFile="esoui/art/icons/mapkey/mapkey_portal.dds" hidden="true">
+					<Anchor point="BOTTOMLEFT" offsetY="-100" />
+					<Dimensions x="30" y="30" />
+				</Texture>				
+				<Label name="$(parent)DolmensNum" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?" >
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-100"  />
                 </Label>
+				
                 <!-- Dungeons -->
-				<!--
-				<Label name="$(parent)Dungeons" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Dungeons: ">
+				<Label name="$(parent)DungeonsLabel" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Dungeons: " hidden="false">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-75" />
                 </Label>
-				-->
-				<Texture name="$(parent)_DungeonTexture" textureFile="esoui/art/icons/mapkey/mapkey_dungeon.dds">
+				<Texture name="$(parent)DungeonTexture" textureFile="esoui/art/icons/mapkey/mapkey_groupinstance.dds" hidden="true">
 					<Anchor point="BOTTOMLEFT" offsetY="-75" />
 					<Dimensions x="20" y="20" />
 				</Texture>
 				
-				<Label name="$(parent)DungeonsNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Label name="$(parent)DungeonsNum" font="ZoFontGame" resizeToFitDescendents="true"  color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-75"  />
                 </Label>
 				
 				<!-- Monsters -->
-				<!--
-				<Label name="$(parent)Monsters" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Monsters: ">
+				<Label name="$(parent)MonstersLabel" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Monsters: " hidden="false">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-50" />
-                </Label> -->
-				<Texture name="$(parent)_MonsterTexture" textureFile="esoui/art/icons/gear_monsterability_1hsword_a.dds">
+                </Label>
+				<Texture name="$(parent)MonsterTexture" textureFile="esoui/art/icons/gear_monsterability_1hsword_a.dds" hidden="true">
 					<Anchor point="BOTTOMLEFT" offsetY="-50" />
 					<Dimensions x="20" y="20" />
 				</Texture>
-				
-				<Label name="$(parent)MonstersNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Label name="$(parent)MonstersNum" font="ZoFontGame" resizeToFitDescendents="true"  color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-50"  />
                 </Label>
 				
 				
 				<!-- Quests -->
-				<Label name="$(parent)Quests" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Quests: ">
+				<Label name="$(parent)Quests" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Quests: " hidden="false">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-25" />
                 </Label>
-				<Label name="$(parent)QuestsNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Texture name="$(parent)QuestTexture" textureFile="esoui/art/compass/quest_icon.dds" hidden="true">
+					<Anchor point="BOTTOMLEFT" offsetX="0" offsetY="-25" />
+					<Dimensions x="30" y="30" />
+				</Texture>
+				<Label name="$(parent)QuestsNum" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="-25"  />
                 </Label>
 				
 				<!-- Time -->
-				<!--
-				<Label name="$(parent)Time" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Time: ">
+				<Label name="$(parent)Time" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Time: " hidden="false">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="0" />
-                </Label> -->
-				<Texture name="$(parent)_TimeTexture" textureFile="esoui/art/tutorial/timer_icon.dds">
-					<Anchor point="BOTTOMLEFT" offsetY="-50" />
-					<Dimensions x="20" y="20" />
+                </Label>
+				<Texture name="$(parent)_TimeTexture" textureFile="esoui/art/tutorial/timer_icon.dds" hidden="true">
+					<Anchor point="BOTTOMLEFT" offsetY="0" />
+					<Dimensions x="30" y="30" />
 				</Texture>
-				<Label name="$(parent)TimeNum" font="ZoFontGame" resizeToFitDescendents="true" fontSize="100" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
+				<Label name="$(parent)TimeNum" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
 					<Anchor  point="BOTTOMRIGHT" offsetX="-10" offsetY="0"  />
                 </Label>
