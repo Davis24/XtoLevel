@@ -11,15 +11,19 @@
 ------------------------------------------------------------------------------------------------
 XtoLevel = {}
 XtoLevel.Default = {
-	OffSetX = -25,
-	OffSetY = 25,
-	avgBattlegroundXP = 0,
-	avgDelveXP = 0,
-	avgDolmenXP = 0,
-	avgDungeonXP = 0,
-	avgMonsterXP = 0,
-	avgQuestXP = 0,
-	avgOverallXP = 1
+	Position = {
+		OffSetX = -25,
+		OffSetY = 25
+	},
+	XP = {
+		avgBattlegroundXP = 0,
+		avgDelveXP = 0,
+		avgDolmenXP = 0,
+		avgDungeonXP = 0,
+		avgMonsterXP = 0,
+		avgQuestXP = 0,
+		avgOverallXP = 1
+	}
 }
 
 XtoLevel.name = "XtoLevel"
@@ -35,7 +39,6 @@ XtoLevel.avgDolmenXP = 0
 XtoLevel.avgDungeonXP = 0
 XtoLevel.avgMonsterXP = 0
 XtoLevel.avgQuestXP = 0
-
 
 XtoLevel.avgOverallXP = 1
 
@@ -67,7 +70,7 @@ end
 function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
 	if ( unitTag ~= 'player' ) then return end
     local XPgain = currentExp - XtoLevel.XP
-    --d("You gained " .. XPgain .. " experience.")
+
     XtoLevel.XP = currentExp
 	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.XP
 	   
@@ -76,14 +79,12 @@ function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
 	elseif(reason == 1) then -- Quest Completed
 		XtoLevel.avgQuestXP = (.5 * XPgain) + (.5 * XtoLevel.avgQuestXP)
 	elseif(reason == 2) then -- Complete POI (which should be delves but I believe it also triggers on other things)
-		--d("Delve 2 Active")
 		XtoLevel.avgDelveXP = (.5 * XPgain) + (.5 * XtoLevel.avgDelveXP)
 	elseif(reason == 37) then -- Dungeon XP  !!!!!!!! What is the ID for this
 		XtoLevel.avgDungeonXP = (.5 * XPgain) + (.5 * XtoLevel.avgDungeonXP)
 	elseif(reason == 4) then -- Battleground
 		XtoLevel.avgBattlegroundXP = (.5 * XPgain) + (.5 * XtoLevel.avgBattlegroundXP)
 	elseif(reason == 7) then -- Dolmens (big and little ones)
-	--d("Dolmen Completed")
 		XtoLevel.avgDolmenXP = (.5 * XPgain) + (.5 * XtoLevel.avgDolmenXP)
 	--else
 		--d("Other XP event:" .. reason) -- Comment out before deployment
@@ -101,8 +102,7 @@ function XtoLevel.AverageTime()
 		XtoLevelUITimeNum:SetText(avgOverallXPAMin)
 	end
 	
-	XtoLevel.initialXP = GetUnitXP('player')
-	
+	XtoLevel.initialXP = GetUnitXP('player')	
 end
 
 function XtoLevel.LeveledUp(eventCode, unitTag, level)
@@ -176,26 +176,71 @@ function XtoLevel.Save()
 	XtoLevel.savedVariables.avgOverallXP = XtoLevel.avgOverallXP
 end
 
-function XtoLevel.Help()
-	d("called")
-	-- Icons
+function XtoLevel.SetDisplayLegend(legend)
+	XtoLevelUIBattlegroundsLabel:SetHidden(legend.text)
+	XtoLevelUIBattlegroundsTexture:SetHidden(legend.icon)
 	
+	XtoLevelUIDelvesLabel:SetHidden(legend.text)
+	XtoLevelUIDelvesTexture:SetHidden(legend.icon)
 	
-	-- Text
+	XtoLevelUIDolmensLabel:SetHidden(legend.text)
+	XtoLevelUIDolmensTexture:SetHidden(legend.icon)
 	
+	XtoLevelUIDungeonsLabel:SetHidden(legend.text)
+	XtoLevelUIDungeonsTexture:SetHidden(legend.icon)
 	
+	XtoLevelUIMonstersLabel:SetHidden(legend.text)
+	XtoLevelUIMonstersTexture:SetHidden(legend.icon)
 	
+	XtoLevelUIQuestsLabel:SetHidden(legend.text)
+	XtoLevelUIQuestsTexture:SetHidden(legend.icon)
 	
+	XtoLevelUITimeLabel:SetHidden(legend.text)
+	XtoLevelUITimeTexture:SetHidden(legend.icon)
 end
---XtoLevelUIBattlegrounds:SetHidden(true)
 
 
+function XtoLevel.Reset()
+
+end
 ------------------------------------------------------------------------------------------------
 --  Slash --
 ------------------------------------------------------------------------------------------------
  
 SLASH_COMMANDS["/xtolevel"] = function (extra)
-	d("called")
+    -- !Code from ESOUI Wiki!
+	local options = {}
+    local searchResult = { string.match(option,"^(%S*)%s*(.-)$") }
+    for i,v in pairs(searchResult) do
+        if (v ~= nil and v ~= "") then
+            options[i] = string.lower(v)
+        end
+    end
+	
+	if #options == 0 or options[1] == "help" then
+       d("XtoLevel " .. XtoLevel.version)
+	   d("Author: Devisaur")
+	   d("/xtolevel resetxp -- resets XP values")
+	   d("/xtolevel resetloc -- resets addon location")
+	   d("/xtolevel show -- shows the addon")
+	   d("/xtolevel hide -- hides the addon")
+	   d("/xtolevel text -- displays categories as text")
+	   d("/xtolevel icons -- displays categories as icons")
+    elseif options[1] == "resetxp" then
+		--Reset
+	elseif options[1] == "resetloc" then
+		-- reset location
+	elseif options[1] == "show" then
+		XtoLevelUI:SetHidden(false)
+	elseif options[1] == "hide" then
+		XtoLevelUI:SetHidden(true)
+	elseif options[1] == "icons" then
+		local legend = { text = false, icon = true}
+		XtoLevel.SetDisplayLegend(legend)
+	elseif options[1] == "text" then
+		local legend = { text = true, icon = false}
+		XtoLevel.SetDisplayLegend(legend)
+	end
 end
 
 
