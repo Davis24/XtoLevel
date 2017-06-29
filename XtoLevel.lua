@@ -56,9 +56,9 @@ end
 function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
 	if ( unitTag ~= 'player' ) then return end
     
-	local XPgain = currentExp - XtoLevel.Player.playerXP
-    XtoLevel.Player.playerXP = currentExp
-	XtoLevel.Player.remainingXP = XtoLevel.Player.levelXP - XtoLevel.Player.playerXP
+	local XPgain = currentExp - XtoLevel.playerXP
+    XtoLevel.playerXP = currentExp
+	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP
 	   
 	if(reason == 0) then -- Kill (i.e monster)		
 		XtoLevel.avgMonsterXP = (.1 * XPgain) + (.9 * XtoLevel.avgMonsterXP)
@@ -202,16 +202,16 @@ SLASH_COMMANDS["/xtolevel"] = function (extra)
             options[i] = string.lower(v)
         end
     end
-	
+	-- !End of code from ESOU Wiki! -- 
 	if #options == 0 or options[1] == "help" then
        d("XtoLevel " .. XtoLevel.version)
 	   d("Author: Devisaur")
-	   d("/xtolevel resetxp -- resets XP values")
-	   d("/xtolevel resetloc -- resets addon location")
-	   d("/xtolevel show -- shows the addon")
-	   d("/xtolevel hide -- hides the addon")
-	   d("/xtolevel text -- displays categories as text")
-	   d("/xtolevel icons -- displays categories as icons")
+	   d("/xtolevel resetxp      -- resets XP values")
+	   d("/xtolevel resetloc     -- resets addon location")
+	   d("/xtolevel show         -- shows the addon")
+	   d("/xtolevel hide         -- hides the addon")
+	   d("/xtolevel text         -- displays categories as text")
+	   d("/xtolevel icons        -- displays categories as icons")
     elseif options[1] == "resetxp" then
 		--Reset
 	elseif options[1] == "resetloc" then
