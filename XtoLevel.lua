@@ -37,8 +37,6 @@ XtoLevel.avgDolmenXP = 0
 XtoLevel.avgDungeonXP = 0
 XtoLevel.avgMonsterXP = 0
 XtoLevel.avgQuestXP = 0
-
-
 XtoLevel.avgOverallXP = 1
 
 ------------------------------------------------------------------------------------------------
@@ -199,6 +197,14 @@ end
 
 
 function XtoLevel.Reset()
+	XtoLevel.avgBattlegroundXP = 0
+	XtoLevel.avgDelveXP = 0
+	XtoLevel.avgDolmenXP = 0
+	XtoLevel.avgDungeonXP = 0
+	XtoLevel.avgMonsterXP = 0
+	XtoLevel.avgQuestXP = 0
+	XtoLevel.avgOverallXP = 1
+	XtoLevel.SetText()
 
 end
 ------------------------------------------------------------------------------------------------
@@ -210,16 +216,13 @@ SLASH_COMMANDS["/xtolevel"] = function (options)
 	if options == "" or options == "help" then
        CHAT_SYSTEM:AddMessage("XtoLevel v" .. XtoLevel.version)
 	   CHAT_SYSTEM:AddMessage("Author: Devisaur")
-	   CHAT_SYSTEM:AddMessage("/xtolevel resetxp    -- resets XP values")
-	   CHAT_SYSTEM:AddMessage("/xtolevel resetloc   -- resets addon location")
+	   CHAT_SYSTEM:AddMessage("/xtolevel reset    -- resets XP values")
 	   CHAT_SYSTEM:AddMessage("/xtolevel show       -- shows the addon")
 	   CHAT_SYSTEM:AddMessage("/xtolevel hide         -- hides the addon")
 	   CHAT_SYSTEM:AddMessage("/xtolevel text          -- displays categories as text")
 	   CHAT_SYSTEM:AddMessage("/xtolevel icons       -- displays categories as icons")
-    elseif options == "resetxp" then
-		--Reset
-	elseif options == "resetloc" then
-		-- reset location
+    elseif options == "reset" then
+		XtoLevel.Reset()
 	elseif options == "show" then
 		XtoLevelUI:SetHidden(false)
 	elseif options == "hide" then
