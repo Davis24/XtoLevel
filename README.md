@@ -4,9 +4,9 @@ Elder Scrolls Online Addon: The addon provides details about your characters lev
 
 ## To Do
 
-* Include icons for each of these instead of the full name -- consider having the ability to switch between both
-* Include /help menu
-* Refactor the code: better variables names and documentation
+* Add the ability to change GUI size, text size, color 
+* Find the proper icons
+* Size and position the icons correctly 
 
 ## Deployment
 
