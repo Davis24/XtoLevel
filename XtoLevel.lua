@@ -19,17 +19,18 @@ XtoLevel.Default = {
 	avgDungeonXP = 0,
 	avgMonsterXP = 0,
 	avgQuestXP = 0,
-	avgOverallXP = 1
+	avgOverallXP = 1,
+	display = "text"
+	hidden = false
 }
-XtoLevel.name = "XtoLevel"
-XtoLevel.version = 1.00
 
+XtoLevel.name = "XtoLevel"
+XtoLevel.version = 1.01
 
 XtoLevel.playerXP = GetUnitXP('player') -- the players XP, updates as XP is gained
 XtoLevel.initialXP = GetUnitXP('player') -- the players XP at the start of the minute, used to calculate AverageTime
 XtoLevel.levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) -- total level XP
 XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP  --How much XP remaining in the level
-
 
 XtoLevel.avgBattlegroundXP = 0
 XtoLevel.avgDelveXP = 0
@@ -59,6 +60,18 @@ function XtoLevel.Initalize(eventCode, addOnName)
 	XtoLevel.avgQuestXP = XtoLevel.savedVariables.avgQuestXP
 	XtoLevel.avgOverallXP = XtoLevel.savedVariables.avgOverallXP
 	XtoLevel.SetText()
+	
+	if(XtoLevel.savedVariables.display == "text")
+		local legend = {text = false, icon = true}
+		XtoLevel.SetDisplayLegend(legend)
+	else
+		local legend = {text = true, icon = false}
+		XtoLevel.SetDisplayLegend(legend)
+	end
+	
+	if(XtoLevel.savedVariables.hidden == true)
+		XtoLevelUI:SetHidden(true)
+	end
 	
 	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
 end
@@ -170,6 +183,7 @@ function XtoLevel.Save()
 	XtoLevel.savedVariables.avgMonsterXP = XtoLevel.avgMonsterXP
 	XtoLevel.savedVariables.avgQuestXP = XtoLevel.avgQuestXP
 	XtoLevel.savedVariables.avgOverallXP = XtoLevel.avgOverallXP
+	XtoLevel.savedVariables.hidden = XtoLevelUI:IsHidden() -- should check if it's hidden and save
 end
 
 function XtoLevel.SetDisplayLegend(legend)
@@ -205,7 +219,6 @@ function XtoLevel.Reset()
 	XtoLevel.avgQuestXP = 0
 	XtoLevel.avgOverallXP = 1
 	XtoLevel.SetText()
-
 end
 ------------------------------------------------------------------------------------------------
 --  Slash --
@@ -230,9 +243,11 @@ SLASH_COMMANDS["/xtolevel"] = function (options)
 	elseif options == "icons" then
 		local legend = {text = true, icon = false}
 		XtoLevel.SetDisplayLegend(legend)
+		XtoLevel.savedVariables.display = "icon"
 	elseif options == "text" then
 		local legend = {text = false, icon = true}
 		XtoLevel.SetDisplayLegend(legend)
+		XtoLevel.savedVariables.display = "text"
 	end
 end
 
