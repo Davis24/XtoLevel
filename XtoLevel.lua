@@ -9,25 +9,37 @@
 ------------------------------------------------------------------------------------------------
 --  Initialize Variables --
 ------------------------------------------------------------------------------------------------
-XtoLevel = {
-	name = "XtoLevel",
-    version = 1.00,
+XtoLevel = {}
+XtoLevel.Default = {
+	OffSetX = 0,
+	OffSetY = 0,
 	avgBattlegroundXP = 0,
 	avgDelveXP = 0,
 	avgDolmenXP = 0,
 	avgDungeonXP = 0,
 	avgMonsterXP = 0,
 	avgQuestXP = 0,
-	avgOverallXP = 1,
-	playerXP = GetUnitXP('player'), -- the players XP, updates as XP is gained
-	initialXP = GetUnitXP('player'), -- the players XP at the start of the minute, used to calculate AverageTime
-	levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')), -- total level XP
-	remainingXP = levelXP - playerXP  --How much XP remaining in the level
+	avgOverallXP = 1
 }
-XtoLevel.Default = {
-	OffSetX = 0,
-	OffSetY = 0
-}
+XtoLevel.name = "XtoLevel"
+XtoLevel.version = 1.00
+
+
+XtoLevel.playerXP = GetUnitXP('player') -- the players XP, updates as XP is gained
+XtoLevel.initialXP = GetUnitXP('player') -- the players XP at the start of the minute, used to calculate AverageTime
+XtoLevel.levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) -- total level XP
+XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP  --How much XP remaining in the level
+
+
+XtoLevel.avgBattlegroundXP = 0
+XtoLevel.avgDelveXP = 0
+XtoLevel.avgDolmenXP = 0
+XtoLevel.avgDungeonXP = 0
+XtoLevel.avgMonsterXP = 0
+XtoLevel.avgQuestXP = 0
+
+
+XtoLevel.avgOverallXP = 1
 
 ------------------------------------------------------------------------------------------------
 --  Functions --
@@ -193,38 +205,30 @@ end
 --  Slash --
 ------------------------------------------------------------------------------------------------
  
-SLASH_COMMANDS["/xtolevel"] = function (extra)
-    -- !Code from ESOUI Wiki!
-	local options = {}
-    local searchResult = { string.match(option,"^(%S*)%s*(.-)$") }
-    for i,v in pairs(searchResult) do
-        if (v ~= nil and v ~= "") then
-            options[i] = string.lower(v)
-        end
-    end
-	-- !End of code from ESOU Wiki! -- 
-	if #options == 0 or options[1] == "help" then
-       d("XtoLevel " .. XtoLevel.version)
-	   d("Author: Devisaur")
-	   d("/xtolevel resetxp      -- resets XP values")
-	   d("/xtolevel resetloc     -- resets addon location")
-	   d("/xtolevel show         -- shows the addon")
-	   d("/xtolevel hide         -- hides the addon")
-	   d("/xtolevel text         -- displays categories as text")
-	   d("/xtolevel icons        -- displays categories as icons")
-    elseif options[1] == "resetxp" then
+SLASH_COMMANDS["/xtolevel"] = function (options)
+
+	if options == "" or options == "help" then
+       CHAT_SYSTEM:AddMessage("XtoLevel v" .. XtoLevel.version)
+	   CHAT_SYSTEM:AddMessage("Author: Devisaur")
+	   CHAT_SYSTEM:AddMessage("/xtolevel resetxp    -- resets XP values")
+	   CHAT_SYSTEM:AddMessage("/xtolevel resetloc   -- resets addon location")
+	   CHAT_SYSTEM:AddMessage("/xtolevel show       -- shows the addon")
+	   CHAT_SYSTEM:AddMessage("/xtolevel hide         -- hides the addon")
+	   CHAT_SYSTEM:AddMessage("/xtolevel text          -- displays categories as text")
+	   CHAT_SYSTEM:AddMessage("/xtolevel icons       -- displays categories as icons")
+    elseif options == "resetxp" then
 		--Reset
-	elseif options[1] == "resetloc" then
+	elseif options == "resetloc" then
 		-- reset location
-	elseif options[1] == "show" then
+	elseif options == "show" then
 		XtoLevelUI:SetHidden(false)
-	elseif options[1] == "hide" then
+	elseif options == "hide" then
 		XtoLevelUI:SetHidden(true)
-	elseif options[1] == "icons" then
-		local legend = { text = false, icon = true}
+	elseif options == "icons" then
+		local legend = {text = true, icon = false}
 		XtoLevel.SetDisplayLegend(legend)
-	elseif options[1] == "text" then
-		local legend = { text = true, icon = false}
+	elseif options == "text" then
+		local legend = {text = false, icon = true}
 		XtoLevel.SetDisplayLegend(legend)
 	end
 end
