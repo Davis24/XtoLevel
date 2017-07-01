@@ -4,9 +4,9 @@ Elder Scrolls Online Addon: The addon provides details about your characters lev
 
 ## To Do
 
-* Add the ability to change GUI size, text size, color 
-* Find the proper icons
-* Size and position the icons correctly 
+* Get a character to veteran so I test tracking champion points
+* Add the ability to change GUI Text Size 
+* Possibly change icons size
 
 ## Deployment
 
