@@ -1,25 +1,27 @@
 <GuiXml>
 	<Controls>
-		<TopLevelControl name="XtoLevelUI" movable="true" mouseEnabled="true" clampedToScreen="true" hidden="false">           
+		<TopLevelControl name="XtoLevelUI" movable="true" mouseEnabled="true" resizeHandleSize="8" clampedToScreen="true" hidden="false">           
             <Anchor point="BOTTOMRIGHT" offsetX="-25" offsetY="25" />
 			<Dimensions x="200" y="175"/>
 
 			<OnMoveStop>
 				XtoLevel.SaveLoc()
 			</OnMoveStop>
+			<OnResizeStop>
+				XtoLevel.SaveSize()
+			</OnResizeStop>
 
 			<Controls>
                 <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.8" />
 				
 				<!-- Battlegrounds -->
-				
-				<Label name="$(parent)BattlegroundsLabel" font="ZoFontGame" resizeToFitDescendents="true"  color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" texture="/esoui/art/help/help_tabicon_feedback_up.dds" text="Battlegrounds: " hidden="false">
+				<Label name="$(parent)BattlegroundsLabel" font="ZoFontGame" resizeToFitDescendents="true"  color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="Battlegrounds: " hidden="false">
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-150" />
                 </Label>
-				<Texture name="$(parent)BattlegroundsTexture" textureFile="esoui/art/compass/quest_icon.dds" hidden="true">
+				<Texture name="$(parent)BattlegroundsTexture" textureFile="esoui/art/journal/leaderboard_indexicon_ava_up.dds" hidden="true">
 					<Anchor point="BOTTOMLEFT" offsetX="-5" offsetY="-150" />
-					<Dimensions x="30" y="30" />
+					<Dimensions x="25" y="25" />
 				</Texture>
 				<Label name="$(parent)BattlegroundsNum" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
@@ -33,7 +35,7 @@
                 </Label>			
 				<Texture name="$(parent)DelvesTexture" textureFile="esoui/art/icons/mapkey/mapkey_delve.dds" hidden="true">
 					<Anchor point="BOTTOMLEFT" offsetY="-125" />
-					<Dimensions x="30" y="30" />
+					<Dimensions x="25" y="25" />
 				</Texture>
 				<Label name="$(parent)DelvesNum" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
@@ -47,7 +49,7 @@
                 </Label>
 				<Texture name="$(parent)DolmensTexture" textureFile="esoui/art/icons/mapkey/mapkey_portal.dds" hidden="true">
 					<Anchor point="BOTTOMLEFT" offsetY="-100" />
-					<Dimensions x="30" y="30" />
+					<Dimensions x="25" y="25" />
 				</Texture>				
 				<Label name="$(parent)DolmensNum" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?" >
                     <AnchorFill />
@@ -61,7 +63,7 @@
                 </Label>
 				<Texture name="$(parent)DungeonsTexture" textureFile="esoui/art/icons/mapkey/mapkey_groupinstance.dds" hidden="true">
 					<Anchor point="BOTTOMLEFT" offsetY="-75" />
-					<Dimensions x="20" y="20" />
+					<Dimensions x="25" y="25" />
 				</Texture>
 				
 				<Label name="$(parent)DungeonsNum" font="ZoFontGame" resizeToFitDescendents="true"  color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
@@ -74,9 +76,9 @@
                     <AnchorFill />
 					<Anchor  point="BOTTOMLEFT" offsetY="-50" />
                 </Label>
-				<Texture name="$(parent)MonstersTexture" textureFile="esoui/art/icons/gear_monsterability_1hsword_a.dds" hidden="true">
+				<Texture name="$(parent)MonstersTexture" textureFile="esoui/art/tutorial/poi_battlefield_complete.dds" hidden="true">
 					<Anchor point="BOTTOMLEFT" offsetY="-50" />
-					<Dimensions x="20" y="20" />
+					<Dimensions x="25" y="25" />
 				</Texture>
 				<Label name="$(parent)MonstersNum" font="ZoFontGame" resizeToFitDescendents="true"  color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
@@ -90,8 +92,8 @@
 					<Anchor  point="BOTTOMLEFT" offsetY="-25" />
                 </Label>
 				<Texture name="$(parent)QuestsTexture" textureFile="esoui/art/compass/quest_icon.dds" hidden="true">
-					<Anchor point="BOTTOMLEFT" offsetX="0" offsetY="-25" />
-					<Dimensions x="30" y="30" />
+					<Anchor point="BOTTOMLEFT" offsetY="-25" />
+					<Dimensions x="25" y="25" />
 				</Texture>
 				<Label name="$(parent)QuestsNum" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />
@@ -105,7 +107,7 @@
                 </Label>
 				<Texture name="$(parent)TimeTexture" textureFile="esoui/art/tutorial/timer_icon.dds" hidden="true">
 					<Anchor point="BOTTOMLEFT" offsetY="0" />
-					<Dimensions x="30" y="30" />
+					<Dimensions x="25" y="25" />
 				</Texture>
 				<Label name="$(parent)TimeNum" font="ZoFontGame" resizeToFitDescendents="true" color="CFDCBD"  horizontalAlignment="LEFT" verticalAlignment="TOP" wrapMode="TRUNCATE" text="?">
                     <AnchorFill />

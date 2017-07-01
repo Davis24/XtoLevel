@@ -1,5 +1,5 @@
 -- Name: XtoLevel
--- Verson: 1.0.0
+-- Verson: 1.1.0
 -- Author: Devisaur
 -- Description: Displays information on character leveling.
 -- ToDo:
@@ -13,6 +13,8 @@ XtoLevel = {}
 XtoLevel.Default = {
 	OffSetX = 0,
 	OffSetY = 0,
+	width = 200,
+	height = 175,
 	avgBattlegroundXP = 0,
 	avgDelveXP = 0,
 	avgDolmenXP = 0,
@@ -20,12 +22,12 @@ XtoLevel.Default = {
 	avgMonsterXP = 0,
 	avgQuestXP = 0,
 	avgOverallXP = 1,
-	display = "text"
+	display = "text",
 	hidden = false
 }
 
 XtoLevel.name = "XtoLevel"
-XtoLevel.version = 1.01
+XtoLevel.version = 1.10
 
 XtoLevel.playerXP = GetUnitXP('player') -- the players XP, updates as XP is gained
 XtoLevel.initialXP = GetUnitXP('player') -- the players XP at the start of the minute, used to calculate AverageTime
@@ -51,6 +53,7 @@ function XtoLevel.Initalize(eventCode, addOnName)
 	XtoLevel.savedVariables = ZO_SavedVars:New("XtoLevelVars", XtoLevel.version, nil, XtoLevel.Default)
 	XtoLevelUI:ClearAnchors()
 	XtoLevelUI:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, XtoLevel.savedVariables.OffSetX, XtoLevel.savedVariables.OffSetY)
+	XtoLevelUI:SetDimensions(XtoLevel.savedVariables.width, XtoLevel.savedVariables.height)
 	
 	XtoLevel.avgBattlegroundXP = XtoLevel.savedVariables.avgBattlegroundXP
 	XtoLevel.avgDelveXP = XtoLevel.savedVariables.avgDelveXP 
@@ -61,7 +64,7 @@ function XtoLevel.Initalize(eventCode, addOnName)
 	XtoLevel.avgOverallXP = XtoLevel.savedVariables.avgOverallXP
 	XtoLevel.SetText()
 	
-	if(XtoLevel.savedVariables.display == "text")
+	if(XtoLevel.savedVariables.display == "text") then
 		local legend = {text = false, icon = true}
 		XtoLevel.SetDisplayLegend(legend)
 	else
@@ -69,7 +72,7 @@ function XtoLevel.Initalize(eventCode, addOnName)
 		XtoLevel.SetDisplayLegend(legend)
 	end
 	
-	if(XtoLevel.savedVariables.hidden == true)
+	if(XtoLevel.savedVariables.hidden == true) then
 		XtoLevelUI:SetHidden(true)
 	end
 	
@@ -175,6 +178,12 @@ function XtoLevel.SaveLoc()
 	XtoLevel.savedVariables.OffSetY = XtoLevelUI:GetTop()
 end
 
+function XtoLevel.SaveSize()
+	XtoLevel.savedVariables.width = XtoLevelUI:GetWidth()
+	XtoLevel.savedVariables.height = XtoLevelUI:GetHeight()
+
+end
+
 function XtoLevel.Save()
 	XtoLevel.savedVariables.avgBattlegroundXP = XtoLevel.avgBattlegroundXP
 	XtoLevel.savedVariables.avgDelveXP = XtoLevel.avgDelveXP
@@ -229,7 +238,7 @@ SLASH_COMMANDS["/xtolevel"] = function (options)
 	if options == "" or options == "help" then
        CHAT_SYSTEM:AddMessage("XtoLevel v" .. XtoLevel.version)
 	   CHAT_SYSTEM:AddMessage("Author: Devisaur")
-	   CHAT_SYSTEM:AddMessage("/xtolevel reset    -- resets XP values")
+	   CHAT_SYSTEM:AddMessage("/xtolevel reset        -- resets XP values")
 	   CHAT_SYSTEM:AddMessage("/xtolevel show       -- shows the addon")
 	   CHAT_SYSTEM:AddMessage("/xtolevel hide         -- hides the addon")
 	   CHAT_SYSTEM:AddMessage("/xtolevel text          -- displays categories as text")
