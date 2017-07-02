@@ -1,8 +1,0 @@
-## Title: XtoLevel
-## Author: Devisaur
-## Description: Provides details about your characters leveling process.
-## APIVersion: 100019
-## SavedVariables: XtoLevelVars
-
-XtoLevel.lua
-XtoLevel.xml
