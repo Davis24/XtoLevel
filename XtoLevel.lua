@@ -1,5 +1,5 @@
 -- Name: XtoLevel
--- Verson: 1.1.1
+-- Verson: 1.1.3
 -- Author: Devisaur
 -- Description: Displays information on character leveling.
 -- ToDo:
@@ -27,7 +27,7 @@ XtoLevel.Default = {
 }
 
 XtoLevel.name = "XtoLevel"
-XtoLevel.version = 1.10
+XtoLevel.version = 1.13
 
 XtoLevel.playerXP = 0
 XtoLevel.initialXP = 0
@@ -89,11 +89,11 @@ function XtoLevel.Initalize(eventCode, addOnName)
 	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
 end
 
-function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
-	if ( unitTag ~= 'player' ) then return end
-    
-	local XPgain = currentExp - XtoLevel.playerXP
-    XtoLevel.playerXP = currentExp
+
+function XtoLevel.Update(eventCode, reason, level, previousExperience, currentExperience, championPoints)
+	    
+	local XPgain = currentExperience - previousExperience
+	XtoLevel.playerXP = XtoLevel.GetCurrentPlayerXP()
 	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP
 	   
 	if(reason == 0) then -- Kill (i.e monster)		
@@ -108,10 +108,11 @@ function XtoLevel.Update(eventCode, unitTag, currentExp, maxExp, reason)
 		XtoLevel.avgBattlegroundXP = (.5 * XPgain) + (.5 * XtoLevel.avgBattlegroundXP)
 	elseif(reason == 7) then -- Dolmens (big and little ones)
 		XtoLevel.avgDolmenXP = (.5 * XPgain) + (.5 * XtoLevel.avgDolmenXP)
-	--else
+	else
 		--d("Other XP event:" .. reason) -- Comment out before deployment
 	end
 	XtoLevel.SetText()
+
 end
 
 function XtoLevel.SetChampionValues()
@@ -153,27 +154,34 @@ end
 function XtoLevel.LeveledUp(eventCode, unitTag, level)
 	if ( unitTag ~= 'player' ) then return end
 	
-	if(GetPlayerChampionPointsEarned() > 0) then
-		XtoLevel.initialXP = GetPlayerChampionXP() 
-		XtoLevel.levelXP = GetNumChampionXPInChampionPoint(GetPlayerChampionPointsEarned()) 
-		XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP 
-	else
-		XtoLevel.initialXP = GetUnitXP('player')
-		XtoLevel.levelXP = GetNumExperiencePointsInLevel(level) 
-		XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP
-	end
+	XtoLevel.initialXP = GetUnitXP('player')
+	XtoLevel.levelXP = GetNumExperiencePointsInLevel(level) 
+	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP
+	
+	XtoLevel.SetText()
+	XtoLevel.AverageTime()
+end
+
+function XtoLevel.ChampionLeveledUp(eventCode, unitTag, oldChampionPoints, currentChampionPoints)
+	if ( unitTag ~= 'player' ) then return end
+	
+	XtoLevel.initialXP = GetPlayerChampionXP() 
+	XtoLevel.levelXP = GetNumChampionXPInChampionPoint(GetPlayerChampionPointsEarned()) 
+	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.playerXP 
+	
 	XtoLevel.SetText()
 	XtoLevel.AverageTime()
 end
 
 function XtoLevel.SetText()
-	local battle = zo_round(XtoLevel.remainingXP/XtoLevel.avgBattlegroundXP)
+
+	local battle = math.ceil(XtoLevel.remainingXP/XtoLevel.avgBattlegroundXP)
 	local delv = math.ceil(XtoLevel.remainingXP/XtoLevel.avgDelveXP)
 	local dol = math.ceil(XtoLevel.remainingXP/XtoLevel.avgDolmenXP)
 	local dung = math.ceil(XtoLevel.remainingXP/XtoLevel.avgDungeonXP)
 	local mon = math.ceil(XtoLevel.remainingXP/XtoLevel.avgMonsterXP)
 	local ques = math.ceil(XtoLevel.remainingXP/XtoLevel.avgQuestXP)
-	
+
 	if(battle == math.huge) then
 		XtoLevelUIBattlegroundsNum:SetText("?")
 	else
@@ -299,14 +307,18 @@ SLASH_COMMANDS["/xtolevel"] = function (options)
 end
 
 
+
+
 ------------------------------------------------------------------------------------------------
 --  Events --
 ------------------------------------------------------------------------------------------------
 EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED, XtoLevel.Initalize)
-EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_EXPERIENCE_UPDATE, XtoLevel.Update)
+EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_EXPERIENCE_GAIN, XtoLevel.Update)
 EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_LEVEL_UPDATE, XtoLevel.LeveledUp)
+EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_CHAMPION_POINT_UPDATE, XtoLevel.ChampionLeveledUp)
 EVENT_MANAGER:RegisterForEvent(XtoLevel.name, EVENT_PLAYER_DEACTIVATED, XtoLevel.Save)
 EVENT_MANAGER:RegisterForUpdate(XtoLevel.name, 60000, XtoLevel.AverageTime)
+
 
 
 	
