@@ -3,7 +3,10 @@
 -- Author: Devisaur
 -- Description: Displays information on character leveling.
 -- For More Info See Github README (https://github.com/Davis24/XtoLevel)
-
+-------------------------------------------------------------------------------------------------
+--  Libraries --
+-------------------------------------------------------------------------------------------------
+local LAM2 = LibStub:GetLibrary("LibAddonMenu-2.0")
 
 ------------------------------------------------------------------------------------------------
 --  Initialize Variables --
@@ -14,19 +17,18 @@ XtoLevel.Default = {
 	OffSetY = 0,
 	width = 200,
 	height = 175,
-	avgBattlegroundXP = 0,
-	avgDelveXP = 0,
-	avgDolmenXP = 0,
-	avgDungeonXP = 0,
-	avgMonsterXP = 0,
-	avgQuestXP = 0,
-	avgOverallXP = 1,
+	avgXP = {0,0,0,0,0,0,1}, -- battleground, delve, dolmen, dungeon, monster, quest, overall
 	display = "text",
-	hidden = false
+	show = false,
 }
 
+local ADDON_NAME = "XtoLevel"
+local ADDON_AUTHOR = "Devisaur"
+local ADDON_AUTHOR_DISPLAY_NAME = "@Devisaur"
+local ADDON_VERSION = "2.0"
+
 XtoLevel.name = "XtoLevel"
-XtoLevel.version = 1.15
+XtoLevel.version = 2
 
 XtoLevel.currentPlayerXP = 0
 XtoLevel.XPAMin = 0
@@ -34,13 +36,9 @@ XtoLevel.levelXP = 0
 XtoLevel.remainingXP = 0
 XtoLevel.XPAMin = 0
 
-XtoLevel.avgBattlegroundXP = 0
-XtoLevel.avgDelveXP = 0
-XtoLevel.avgDolmenXP = 0
-XtoLevel.avgDungeonXP = 0
-XtoLevel.avgMonsterXP = 0
-XtoLevel.avgQuestXP = 0
-XtoLevel.avgXPGained = 1
+
+local avgBattlegroundXP, avgDelveXP, avgDolmenXP, avgDungeonXP, avgMonsterXP, avgQuestXP = 0
+local avgXPGained = 1
 
 ------------------------------------------------------------------------------------------------
 --  Functions --
@@ -52,18 +50,13 @@ function XtoLevel.Initialize(eventCode, addonName)
 		return
 	end
 	
-	XtoLevel.savedVariables = ZO_SavedVars:New("XtoLevelVars", XtoLevel.version, nil, XtoLevel.Default)
+	XtoLevel.savedVariables = ZO_SavedVars:New("XtoLevelVars", 2, nil, XtoLevel.Default)
+	XtoLevel.CreateSettingsWindow()
 	XtoLevelUI:ClearAnchors()
+	XtoLevelUI:SetHidden(not XtoLevel.savedVariables.show)
 	XtoLevelUI:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, XtoLevel.savedVariables.OffSetX, XtoLevel.savedVariables.OffSetY)
 	XtoLevelUI:SetDimensions(XtoLevel.savedVariables.width, XtoLevel.savedVariables.height)
-	
-	XtoLevel.avgBattlegroundXP = XtoLevel.savedVariables.avgBattlegroundXP
-	XtoLevel.avgDelveXP = XtoLevel.savedVariables.avgDelveXP 
-	XtoLevel.avgDolmenXP = XtoLevel.savedVariables.avgDolmenXP
-	XtoLevel.avgDungeonXP = XtoLevel.savedVariables.avgDungeonXP
-	XtoLevel.avgMonsterXP = XtoLevel.savedVariables.avgMonsterXP
-	XtoLevel.avgQuestXP = XtoLevel.savedVariables.avgQuestXP
-	XtoLevel.avgXPGained = XtoLevel.savedVariables.avgXPGained
+	avgBattlegroundXP, avgDelveXP, avgDolmenXP, avgDungeonXP, avgMonsterXP, avgQuestXP, avgXPGained = unpack(XtoLevel.savedVariables.avgXP)
 
 	--Check if character is using Champion levels
 	if(GetUnitLevel('player') == 50) then
@@ -82,12 +75,98 @@ function XtoLevel.Initialize(eventCode, addonName)
 		XtoLevel.SetDisplayLegend(legend)
 	end
 	
-	if(XtoLevel.savedVariables.hidden == true) then
+	--[[if(XtoLevel.savedVariables.show == true) then
 		XtoLevelUI:SetHidden(true)
-	end
+	end--]]
 
 	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
 end
+
+-------------------------------------------------------------------------------------------------
+--  Menu Functions --
+-------------------------------------------------------------------------------------------------
+function XtoLevel.CreateSettingsWindow()
+	local panelData = {
+		type = "panel",
+		name = "XtoLevel",
+		displayName = "XtoLevel",
+		author = ADDON_AUTHOR,
+		version = ADDON_VERSION,
+		slashCommand = "/xtolevel",
+		registerForRefresh = true,
+		registerForDefaults = true,
+	}
+	local cntrlOptionsPanel = LAM2:RegisterAddonPanel("XtoLevel_Panel", panelData)
+
+	local optionsData = {
+		[1] = {
+			type = "header",
+			name = "XtoLevel Settings"
+		},
+		[2] = {
+			type = "description",
+			text = "Here you can adjust how XtoLevel Looks."
+		},
+		[3] = {
+			type = "checkbox",
+			name = "Show XtoLevel",
+			tooltip = "When ON the XtoLevel panel will be visible. When OFF the XtoLevel panel will be show.",
+			default = false,
+			getFunc = function() return XtoLevel.savedVariables.show end,
+			setFunc = function(newValue) 
+				XtoLevel.savedVariables.show = newValue
+				XtoLevelUI:SetHidden(not newValue)  end,
+		},
+		[4] = {
+			type = "slider",
+			name = "Select Width",
+			tooltip = "Adjusts the width of the XtoLevel panel.",
+			min = 100,
+			max = 1000,
+			step = 1,
+			default = 200,
+			getFunc = function() return XtoLevel.savedVariables.width end,
+			setFunc = function(newValue) 
+						XtoLevel.savedVariables.width = newValue
+						XtoLevelUI:SetDimensions(newValue, XtoLevel.savedVariables.height)
+						end,
+		},
+		[5] = {
+			type = "slider",
+			name = "Select Height",
+			tooltip = "Adjusts the height of the XtoLevel panel.",
+			min = 100,
+			max = 1000,
+			step = 1,
+			default = 175,
+			getFunc = function() return XtoLevel.savedVariables.height end,
+			setFunc = function(newValue) 
+						XtoLevel.savedVariables.height = newValue
+						XtoLevelUI:SetDimensions(XtoLevel.savedVariables.width,newValue)
+						end,
+		},
+		[6] = {
+			type = "dropdown",
+			name = "Select Display Type",
+			tooltip = "Change the way each category is displayed in the XtoLevel panel.",
+			choices = {"Text","Icons"},
+			default = "Text",
+			getFunc = function () return XtoLevel.savedVariables.display end,
+			setFunc = function(newValue) 
+						XtoLevel.savedVariables.display = newValue
+						local legend = nil
+						if(newValue == "Text") then
+							legend = {text = false, icon = true}
+						else
+							legend = {text = true, icon = false}
+						end
+						XtoLevel.SetDisplayLegend(legend)
+					end,
+		},
+	}
+	LAM2:RegisterOptionControls("XtoLevel_Panel", optionsData)
+end
+
 
 -- Gets called when XP is gained
 function XtoLevel.XPUpdate(eventCode, reason, level, previousExperience, currentExperience, championPoints) 
@@ -107,17 +186,17 @@ function XtoLevel.XPUpdate(eventCode, reason, level, previousExperience, current
 	XtoLevel.remainingXP = XtoLevel.levelXP - currentExperience
 
 	if(reason == 0) then -- Kill (i.e monster)		
-		XtoLevel.avgMonsterXP = (.1 * xpGained) + (.9 * XtoLevel.avgMonsterXP)
+		avgMonsterXP = (.1 * xpGained) + (.9 * avgMonsterXP)
 	elseif(reason == 1) then -- Quest Completed
-		XtoLevel.avgQuestXP = (.5 * xpGained) + (.5 * XtoLevel.avgQuestXP)
+		avgQuestXP = (.5 * xpGained) + (.5 * avgQuestXP)
 	elseif(reason == 2) then -- Complete POI (which should be delves but I believe it also triggers on other things)
-		XtoLevel.avgDelveXP = (.5 * xpGained) + (.5 * XtoLevel.avgDelveXP)
+		avgDelveXP = (.5 * xpGained) + (.5 * avgDelveXP)
 	elseif(reason == 37) then -- Dungeon XP
-		XtoLevel.avgDungeonXP = (.5 * xpGained) + (.5 * XtoLevel.avgDungeonXP)
+		avgDungeonXP = (.5 * xpGained) + (.5 * avgDungeonXP)
 	elseif(reason == 4) then -- Battleground
-		XtoLevel.avgBattlegroundXP = (.5 * xpGained) + (.5 * XtoLevel.avgBattlegroundXP)
+		avgBattlegroundXP = (.5 * xpGained) + (.5 * avgBattlegroundXP)
 	elseif(reason == 7) then -- Dolmens (big and little ones)
-		XtoLevel.avgDolmenXP = (.5 * xpGained) + (.5 * XtoLevel.avgDolmenXP)
+		avgDolmenXP = (.5 * xpGained) + (.5 * avgDolmenXP)
 	--else
 		--d("Other XP event:" .. reason) -- Comment out before deployment
 	end
@@ -196,13 +275,20 @@ function XtoLevel.AverageTime()
 end
 
 function XtoLevel.SetText()
-	local battle = zo_round(XtoLevel.remainingXP/XtoLevel.avgBattlegroundXP)
+	--[[local battle = zo_round(XtoLevel.remainingXP/XtoLevel.avgBattlegroundXP)
 	local delv = math.ceil(XtoLevel.remainingXP/XtoLevel.avgDelveXP)
 	local dol = math.ceil(XtoLevel.remainingXP/XtoLevel.avgDolmenXP)
 	local dung = math.ceil(XtoLevel.remainingXP/XtoLevel.avgDungeonXP)
 	local mon = math.ceil(XtoLevel.remainingXP/XtoLevel.avgMonsterXP)
-	local ques = math.ceil(XtoLevel.remainingXP/XtoLevel.avgQuestXP)
-	
+	local ques = math.ceil(XtoLevel.remainingXP/XtoLevel.avgQuestXP)--]]
+
+	local battle = zo_round(XtoLevel.remainingXP/avgBattlegroundXP)
+	local delv = math.ceil(XtoLevel.remainingXP/avgDelveXP)
+	local dol = math.ceil(XtoLevel.remainingXP/avgDolmenXP)
+	local dung = math.ceil(XtoLevel.remainingXP/avgDungeonXP)
+	local mon = math.ceil(XtoLevel.remainingXP/avgMonsterXP)
+	local ques = math.ceil(XtoLevel.remainingXP/avgQuestXP)
+
 	if(battle == math.huge) then
 		XtoLevelUIBattlegroundsNum:SetText("?")
 	else
@@ -252,14 +338,8 @@ function XtoLevel.SaveSize()
 end
 
 function XtoLevel.Save()
-	XtoLevel.savedVariables.avgBattlegroundXP = XtoLevel.avgBattlegroundXP
-	XtoLevel.savedVariables.avgDelveXP = XtoLevel.avgDelveXP
-	XtoLevel.savedVariables.avgDolmenXP = XtoLevel.avgDolmenXP
-	XtoLevel.savedVariables.avgDungeonXP = XtoLevel.avgDungeonXP
-	XtoLevel.savedVariables.avgMonsterXP = XtoLevel.avgMonsterXP
-	XtoLevel.savedVariables.avgQuestXP = XtoLevel.avgQuestXP
-	XtoLevel.savedVariables.avgXPGained = XtoLevel.avgXPGained
-	XtoLevel.savedVariables.hidden = XtoLevelUI:IsHidden() -- should check if it's hidden and save
+	XtoLevel.savedVariables.avgXP = {avgBattlegroundXP,avgDelveXP,avgDolmenXP,avgDungeonXP,avgMonsterXP,avgQuestXP,avgXPGained}
+	XtoLevel.savedVariables.show = XtoLevelUI:IsHidden() -- should check if it's show and save
 end
 
 function XtoLevel.SetDisplayLegend(legend)
