@@ -17,9 +17,10 @@ XtoLevel.Default = {
 	OffSetY = 0,
 	width = 200,
 	height = 175,
+	iconSize = 25,
 	avgXP = {0,0,0,0,0,0,1}, -- battleground, delve, dolmen, dungeon, monster, quest, overall
 	display = "text",
-	show = false,
+	show = true,
 }
 
 local ADDON_NAME = "XtoLevel"
@@ -27,15 +28,15 @@ local ADDON_AUTHOR = "Devisaur"
 local ADDON_AUTHOR_DISPLAY_NAME = "@Devisaur"
 local ADDON_VERSION = "2.0"
 
-XtoLevel.name = "XtoLevel"
+--XtoLevel.name = "XtoLevel"
 XtoLevel.version = 2
 
-XtoLevel.currentPlayerXP = 0
+--[[XtoLevel.currentPlayerXP = 0
 XtoLevel.XPAMin = 0
 XtoLevel.levelXP = 0
 XtoLevel.remainingXP = 0
-XtoLevel.XPAMin = 0
-
+XtoLevel.XPAMin = 0]]--
+local currentPlayerXP, XPAMin, levelXP, remainingXP = 0
 
 local avgBattlegroundXP, avgDelveXP, avgDolmenXP, avgDungeonXP, avgMonsterXP, avgQuestXP = 0
 local avgXPGained = 1
@@ -46,7 +47,7 @@ local avgXPGained = 1
 
 --Loads all the saved variables
 function XtoLevel.Initialize(eventCode, addonName)
-	if (addonName ~= XtoLevel.name) then
+	if (addonName ~= ADDON_NAME) then
 		return
 	end
 	
@@ -63,6 +64,7 @@ function XtoLevel.Initialize(eventCode, addonName)
 		XtoLevel.SetChampionValues()
 	else
 		XtoLevel.SetLevelValues()
+	
 	end
 	
 	XtoLevel.SetText()
@@ -79,7 +81,7 @@ function XtoLevel.Initialize(eventCode, addonName)
 		XtoLevelUI:SetHidden(true)
 	end--]]
 
-	EVENT_MANAGER:UnregisterForEvent(XtoLevel.name, EVENT_ADD_ON_LOADED)
+	EVENT_MANAGER:UnregisterForEvent(ADDON_NAME, EVENT_ADD_ON_LOADED)
 end
 
 -------------------------------------------------------------------------------------------------
@@ -111,7 +113,7 @@ function XtoLevel.CreateSettingsWindow()
 			type = "checkbox",
 			name = "Show XtoLevel",
 			tooltip = "When ON the XtoLevel panel will be visible. When OFF the XtoLevel panel will be show.",
-			default = false,
+			default = true,
 			getFunc = function() return XtoLevel.savedVariables.show end,
 			setFunc = function(newValue) 
 				XtoLevel.savedVariables.show = newValue
@@ -146,6 +148,20 @@ function XtoLevel.CreateSettingsWindow()
 						end,
 		},
 		[6] = {
+			type = "slider",
+			name = "Select Icon Size",
+			tooltip = "Adjusts the height of the XtoLevel panel.",
+			min = 0,
+			max = 100,
+			step = 1,
+			default = 25,
+			getFunc = function() return XtoLevel.savedVariables.iconSize end,
+			setFunc = function(newValue) 
+						XtoLevel.savedVariables.iconSize = newValue
+						XtoLevel.SetIconSize(newValue,newValue)
+						end,
+		},
+		[7] = {
 			type = "dropdown",
 			name = "Select Display Type",
 			tooltip = "Change the way each category is displayed in the XtoLevel panel.",
@@ -168,6 +184,16 @@ function XtoLevel.CreateSettingsWindow()
 end
 
 
+function XtoLevel.SetIconSize(w,h)
+	XtoLevelUIBattlegroundsTexture:SetDimensions(w,h)
+	XtoLevelUIDelvesTexture:SetDimensions(w,h)
+	XtoLevelUIDolmensTexture:SetDimensions(w,h)
+	XtoLevelUIDungeonsTexture:SetDimensions(w,h)
+	XtoLevelUIMonstersTexture:SetDimensions(w,h)
+	XtoLevelUIQuestsTexture:SetDimensions(w,h)
+	XtoLevelUITimeTexture:SetDimensions(w,h)
+end
+
 -- Gets called when XP is gained
 function XtoLevel.XPUpdate(eventCode, reason, level, previousExperience, currentExperience, championPoints) 
 	--[[d("-----------------------")
@@ -182,8 +208,8 @@ function XtoLevel.XPUpdate(eventCode, reason, level, previousExperience, current
 	local xpGained = 0
 
 	xpGained = currentExperience - previousExperience
-	XtoLevel.currentPlayerXP = currentExperience 
-	XtoLevel.remainingXP = XtoLevel.levelXP - currentExperience
+	currentPlayerXP = currentExperience 
+	remainingXP = levelXP - currentExperience
 
 	if(reason == 0) then -- Kill (i.e monster)		
 		avgMonsterXP = (.1 * xpGained) + (.9 * avgMonsterXP)
@@ -201,15 +227,15 @@ function XtoLevel.XPUpdate(eventCode, reason, level, previousExperience, current
 		--d("Other XP event:" .. reason) -- Comment out before deployment
 	end
 
-	XtoLevel.XPAMin = XtoLevel.XPAMin + xpGained
+	XPAMin = XPAMin + xpGained
 	XtoLevel.SetText()
 	
 end
 
 function XtoLevel.ChampionLeveledUp(eventCode, championPointsDelta)
-	XtoLevel.levelXP = GetNumChampionXPInChampionPoint(GetPlayerChampionPointsEarned()) 
-	XtoLevel.currentPlayerXP = GetPlayerChampionXP()
-	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.currentPlayerXP 
+	levelXP = GetNumChampionXPInChampionPoint(GetPlayerChampionPointsEarned()) 
+	currentPlayerXP = GetPlayerChampionXP()
+	remainingXP = levelXP - currentPlayerXP 
 
 	XtoLevel.SetText()
 	XtoLevel.AverageTime()
@@ -219,24 +245,24 @@ end
 function XtoLevel.LeveledUp(eventCode, unitTag, level) 
 	if ( unitTag ~= 'player' ) then return end
 
-	XtoLevel.initialXP = GetUnitXP('player')
-	XtoLevel.levelXP = GetNumExperiencePointsInLevel(level) 
-	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.currentPlayerXP
+	initialXP = GetUnitXP('player')
+	levelXP = GetNumExperiencePointsInLevel(level) 
+	remainingXP = levelXP - currentPlayerXP
 	
 	XtoLevel.SetText()
 	XtoLevel.AverageTime()
 end
 
 function XtoLevel.SetChampionValues()
-	XtoLevel.currentPlayerXP = GetPlayerChampionXP() -- the players XP, updates as XP is gained
-	XtoLevel.levelXP = GetNumChampionXPInChampionPoint(GetPlayerChampionPointsEarned()) -- total level XP
-	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.currentPlayerXP --How much XP remaining in the level
+	currentPlayerXP = GetPlayerChampionXP() -- the players XP, updates as XP is gained
+	levelXP = GetNumChampionXPInChampionPoint(GetPlayerChampionPointsEarned()) -- total level XP
+	remainingXP = levelXP - currentPlayerXP --How much XP remaining in the level
 end
 
 function XtoLevel.SetLevelValues()
-	XtoLevel.currentPlayerXP = GetUnitXP('player') -- the players XP, updates as XP is gained
-	XtoLevel.levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) -- total level XP
-	XtoLevel.remainingXP = XtoLevel.levelXP - XtoLevel.currentPlayerXP --How much XP remaining in the level
+	currentPlayerXP = GetUnitXP('player') -- the players XP, updates as XP is gained
+	levelXP = GetNumExperiencePointsInLevel(GetUnitLevel('player')) -- total level XP
+	remainingXP = levelXP - currentPlayerXP --How much XP remaining in the level
 end
 
 --Sets currentPlayerXP based on the level, if the Character is level 50 use champion points otherwise use unitXP
@@ -252,42 +278,35 @@ end
 function XtoLevel.AverageTime()
 	--d("-------------")
 	--d("Average Time")
-	--d("XPAMin: ".. XtoLevel.XPAMin)
-	if (XtoLevel.avgXPGained == nil or XtoLevel.avgXPGained == '') then
-		XtoLevel.avgXPGained = 1
+	--d("XPAMin: ".. XPAMin)
+	if (avgXPGained == nil or avgXPGained == '') then
+		avgXPGained = 1
 	end
-	--d("Average XP Gained: "..XtoLevel.avgXPGained)
-	
-	if(XtoLevel.XPAMin == 0) then
-		XtoLevel.avgXPGained = .9 * XtoLevel.avgXPGained
+	--d("Average XP Gained: "..avgXPGained)
+
+	if(XPAMin == nil or XPAMin == 0) then
+		avgXPGained = .9 * avgXPGained
 	else
-		XtoLevel.avgXPGained = (.3 * XtoLevel.XPAMin) + (.5 * XtoLevel.avgXPGained)
+		avgXPGained = (.3 * XPAMin) + (.5 * avgXPGained)
 	end
 
-	local avgOverallXPAMin = zo_round(XtoLevel.remainingXP/XtoLevel.avgXPGained)
+	local avgOverallXPAMin = zo_round(remainingXP/avgXPGained)
 	if(avgOverallXPAMin > 120) then
 		XtoLevelUITimeNum:SetText("> 2 hrs")
 	else
 		XtoLevelUITimeNum:SetText(avgOverallXPAMin .. " mins")
 	end
 	
-	XtoLevel.XPAMin = 0
+	XPAMin = 0
 end
 
 function XtoLevel.SetText()
-	--[[local battle = zo_round(XtoLevel.remainingXP/XtoLevel.avgBattlegroundXP)
-	local delv = math.ceil(XtoLevel.remainingXP/XtoLevel.avgDelveXP)
-	local dol = math.ceil(XtoLevel.remainingXP/XtoLevel.avgDolmenXP)
-	local dung = math.ceil(XtoLevel.remainingXP/XtoLevel.avgDungeonXP)
-	local mon = math.ceil(XtoLevel.remainingXP/XtoLevel.avgMonsterXP)
-	local ques = math.ceil(XtoLevel.remainingXP/XtoLevel.avgQuestXP)--]]
-
-	local battle = zo_round(XtoLevel.remainingXP/avgBattlegroundXP)
-	local delv = math.ceil(XtoLevel.remainingXP/avgDelveXP)
-	local dol = math.ceil(XtoLevel.remainingXP/avgDolmenXP)
-	local dung = math.ceil(XtoLevel.remainingXP/avgDungeonXP)
-	local mon = math.ceil(XtoLevel.remainingXP/avgMonsterXP)
-	local ques = math.ceil(XtoLevel.remainingXP/avgQuestXP)
+	local battle = zo_round(remainingXP/avgBattlegroundXP)
+	local delv = math.ceil(remainingXP/avgDelveXP)
+	local dol = math.ceil(remainingXP/avgDolmenXP)
+	local dung = math.ceil(remainingXP/avgDungeonXP)
+	local mon = math.ceil(remainingXP/avgMonsterXP)
+	local ques = math.ceil(remainingXP/avgQuestXP)
 
 	if(battle == math.huge) then
 		XtoLevelUIBattlegroundsNum:SetText("?")
@@ -339,7 +358,7 @@ end
 
 function XtoLevel.Save()
 	XtoLevel.savedVariables.avgXP = {avgBattlegroundXP,avgDelveXP,avgDolmenXP,avgDungeonXP,avgMonsterXP,avgQuestXP,avgXPGained}
-	XtoLevel.savedVariables.show = XtoLevelUI:IsHidden() -- should check if it's show and save
+	--XtoLevel.savedVariables.show = XtoLevelUI:IsHidden() -- should check if it's show and save
 end
 
 function XtoLevel.SetDisplayLegend(legend)
@@ -367,13 +386,13 @@ end
 
 --Reset all stored values
 function XtoLevel.Reset()
-	XtoLevel.avgBattlegroundXP = 0
-	XtoLevel.avgDelveXP = 0
-	XtoLevel.avgDolmenXP = 0
-	XtoLevel.avgDungeonXP = 0
-	XtoLevel.avgMonsterXP = 0
-	XtoLevel.avgQuestXP = 0
-	XtoLevel.avgXPGained = 1
+	avgBattlegroundXP = 0
+	avgDelveXP = 0
+	avgDolmenXP = 0
+	avgDungeonXP = 0
+	avgMonsterXP = 0
+	avgQuestXP = 0
+	avgXPGained = 1
 	XtoLevel.SetText()
 end
 
@@ -381,7 +400,7 @@ end
 --  Slash --
 ------------------------------------------------------------------------------------------------
  
-SLASH_COMMANDS["/xtolevel"] = function (options)
+--[[SLASH_COMMANDS["/xtolevel"] = function (options)
 
 	if options == "" or options == "help" then
        CHAT_SYSTEM:AddMessage("XtoLevel v" .. XtoLevel.version)
@@ -406,7 +425,7 @@ SLASH_COMMANDS["/xtolevel"] = function (options)
 		XtoLevel.SetDisplayLegend(legend)
 		XtoLevel.savedVariables.display = "text"
 	end
-end
+end]]--
 
 ------------------------------------------------------------------------------------------------
 --  Events --
